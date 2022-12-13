@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>932</width>
-    <height>761</height>
+    <width>929</width>
+    <height>753</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>931</width>
+     <width>1201</width>
      <height>761</height>
     </rect>
    </property>
@@ -724,13 +724,12 @@ border-right-color: rgb(160,160,160);
    <property name="styleSheet">
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
 border-top: 1px solid;
-border-top-color:rgb(160,160,160);
+border-top-color: rgb(174, 139, 137);
 border-left: 1px solid;
 border-left-color: rgb(160,160,160);
 border-right: 1px solid;
 border-right-color: rgb(160,160,160);
-border-bottom: 1px solid;
-border-bottom-color: rgb(160,160,160);</string>
+</string>
    </property>
    <property name="text">
     <string>Internal Notes</string>

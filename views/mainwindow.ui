@@ -10,19 +10,29 @@
     <height>754</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>140</y>
-     <width>851</width>
-     <height>561</height>
+     <x>70</x>
+     <y>145</y>
+     <width>781</width>
+     <height>551</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="kanban"/>
+   <layout class="QGridLayout" name="kanban">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetNoConstraint</enum>
+    </property>
+   </layout>
   </widget>
   <widget class="QLabel" name="background_color">
    <property name="geometry">
@@ -32,6 +42,12 @@
      <width>931</width>
      <height>754</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>1</horstretch>
+     <verstretch>1</verstretch>
+    </sizepolicy>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(246, 247, 250);</string>
@@ -48,6 +64,12 @@
      <width>121</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(174, 139, 137);
@@ -139,11 +161,17 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="antet_color">
    <property name="geometry">
     <rect>
-     <x>-20</x>
+     <x>0</x>
      <y>0</y>
-     <width>971</width>
-     <height>111</height>
+     <width>931</width>
+     <height>756</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);</string>
@@ -269,12 +297,175 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
      <height>601</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string/>
    </property>
+  </widget>
+  <widget class="QTreeWidget" name="tree_view_widget_client">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>140</y>
+     <width>847</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustToContents</enum>
+   </property>
+   <property name="autoScrollMargin">
+    <number>16</number>
+   </property>
+   <property name="alternatingRowColors">
+    <bool>false</bool>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
+   </property>
+   <property name="animated">
+    <bool>true</bool>
+   </property>
+   <attribute name="headerVisible">
+    <bool>true</bool>
+   </attribute>
+   <attribute name="headerCascadingSectionResizes">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="headerHighlightSections">
+    <bool>false</bool>
+   </attribute>
+   <attribute name="headerShowSortIndicator" stdset="0">
+    <bool>true</bool>
+   </attribute>
+   <column>
+    <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Type_client</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Email</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Phone</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Street</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Street Nr</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>City</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>District</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Country</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Web Site</string>
+    </property>
+   </column>
+   <item>
+    <property name="text">
+     <string>2</string>
+    </property>
+    <property name="text">
+     <string>Juridica</string>
+    </property>
+    <property name="text">
+     <string>daniel@gmail.com</string>
+    </property>
+    <property name="text">
+     <string>0737462415</string>
+    </property>
+    <property name="text">
+     <string>Sfantul Andrei</string>
+    </property>
+    <property name="text">
+     <string>74</string>
+    </property>
+    <property name="text">
+     <string>Sibiu</string>
+    </property>
+    <property name="text">
+     <string>Sibiu</string>
+    </property>
+    <property name="text">
+     <string>Romania</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1</string>
+    </property>
+    <property name="text">
+     <string>Fizica</string>
+    </property>
+    <property name="text">
+     <string>ion@gmail.com</string>
+    </property>
+    <property name="text">
+     <string>0734672812</string>
+    </property>
+    <property name="text">
+     <string>Lazar</string>
+    </property>
+    <property name="text">
+     <string>112</string>
+    </property>
+    <property name="text">
+     <string>Iasi</string>
+    </property>
+    <property name="text">
+     <string>Iasi</string>
+    </property>
+    <property name="text">
+     <string>Romania</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </item>
   </widget>
   <zorder>background_color</zorder>
   <zorder>kanban_bg_color_3</zorder>
@@ -293,6 +484,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <zorder>kanban_deselect</zorder>
   <zorder>kanban_select</zorder>
   <zorder>list_select</zorder>
+  <zorder>tree_view_widget_client</zorder>
  </widget>
  <resources/>
  <connections/>

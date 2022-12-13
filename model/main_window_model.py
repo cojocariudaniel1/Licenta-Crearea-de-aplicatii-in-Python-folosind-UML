@@ -1,8 +1,9 @@
 import logging
+
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QColor, QMouseEvent
-from PyQt5.QtWidgets import QGridLayout, QLabel
+from PyQt5.QtWidgets import QGridLayout, QLabel, QTreeWidget, QTreeWidgetItem
 
 from model.form_creatre import ClientCreateForm
 from views.main_window import Ui_Form
@@ -27,7 +28,7 @@ class LoginWindow(QtWidgets.QWidget):
         self.ui.setupUi(self)
 
         self.select_kanban_view()
-        self.ui.gridLayoutWidget_3.hide()
+        self.ui.tree_view_widget_client.hide()
         self.row_numbers = 4
         self.column_numbers = 4
         # self.box('1', '1')
@@ -41,6 +42,7 @@ class LoginWindow(QtWidgets.QWidget):
         self.ui.kanban.setHorizontalSpacing(30)
         self.set_grid_row_column(self.row_numbers, self.column_numbers)
         self.ui.create_customer.clicked.connect(self.click_create_button)
+        self.populate_tree_vew()
 
     def click_create_button(self):
         self.new_window = ClientCreateForm()
@@ -71,10 +73,24 @@ class LoginWindow(QtWidgets.QWidget):
     def select_kanban_view(self):
         self.ui.kanban_select.show()
         self.ui.list_select.hide()
+        self.ui.tree_view_widget_client.hide()
+        self.ui.gridLayoutWidget.show()
+
+    # def populate_tree_vew(self):
+    #     client_list = [
+    #         ['3', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd'],
+    #         ['4', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", ''],
+    #         ['5', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd']
+    #     ]
+    #     for row in client_list:
+    #         self.ui.tree_view_widget_client.addTopLevelItem(QTreeWidgetItem(row))
+
 
     def select_list_view(self):
         self.ui.list_select.show()
         self.ui.kanban_select.hide()
+        self.ui.tree_view_widget_client.show()
+        self.ui.gridLayoutWidget.hide()
 
     def test(self):
         name_list = ["Name1", "Name2", "Name3"]
