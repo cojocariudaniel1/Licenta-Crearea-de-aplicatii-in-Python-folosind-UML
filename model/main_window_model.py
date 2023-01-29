@@ -76,14 +76,14 @@ class LoginWindow(QtWidgets.QWidget):
         self.ui.tree_view_widget_client.hide()
         self.ui.gridLayoutWidget.show()
 
-    # def populate_tree_vew(self):
-    #     client_list = [
-    #         ['3', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd'],
-    #         ['4', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", ''],
-    #         ['5', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd']
-    #     ]
-    #     for row in client_list:
-    #         self.ui.tree_view_widget_client.addTopLevelItem(QTreeWidgetItem(row))
+    def populate_tree_vew(self):
+        client_list = [
+            ['3', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd'],
+            ['4', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", ''],
+            ['5', "Fizica", 'razvan@gmail.com', '0723411932', 'Sperantei', '32', "Iasi", "Iasi", "Romania", 'd']
+        ]
+        for row in client_list:
+            self.ui.tree_view_widget_client.addTopLevelItem(QTreeWidgetItem(row))
 
 
     def select_list_view(self):
