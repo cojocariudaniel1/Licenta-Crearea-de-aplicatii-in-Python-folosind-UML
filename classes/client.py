@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer  # Import library sql
+from sqlalchemy import Column, String, Integer, LargeBinary  # Import library sql
+from sqlalchemy.orm import relationship
 
 from base import Base
 
@@ -17,8 +18,12 @@ class Client(Base):
     phone = Column(Integer)
     web_site = Column(String)
     email = Column(String)
+    zip_code = Column(Integer)
+    image = Column(LargeBinary)
+    account = relationship("Account", back_populates="client", uselist=False)
 
-    def __init__(self, type_client, name, street, street_number, city, district, country, phone, web_site, email):
+    def __init__(self, type_client, name, street, street_number, city, district, country, phone, web_site, email,
+                 zip_code, image ):
         self.type_client = type_client
         self.name = name
         self.street = street
@@ -29,3 +34,5 @@ class Client(Base):
         self.phone = phone
         self.web_site = web_site
         self.email = email
+        self.zip_code = zip_code
+        self.image = image

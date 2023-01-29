@@ -205,13 +205,3 @@ class Ui_Form(object):
         self.tree_view_widget_client.topLevelItem(1).setText(7, _translate("Form", "Iasi"))
         self.tree_view_widget_client.topLevelItem(1).setText(8, _translate("Form", "Romania"))
         self.tree_view_widget_client.setSortingEnabled(__sortingEnabled)
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
-    sys.exit(app.exec_())

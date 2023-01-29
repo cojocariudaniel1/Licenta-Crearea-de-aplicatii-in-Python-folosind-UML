@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>929</width>
-    <height>753</height>
+    <width>932</width>
+    <height>761</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
+     <width>931</width>
      <height>761</height>
     </rect>
    </property>
@@ -173,7 +173,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string>Create Client</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton">
+  <widget class="QRadioButton" name="rb_fizica">
    <property name="geometry">
     <rect>
      <x>260</x>
@@ -189,7 +189,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string>Fizica</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
+  <widget class="QRadioButton" name="rb_juridica">
    <property name="geometry">
     <rect>
      <x>390</x>
@@ -242,7 +242,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Street</string>
+    <string>Street*</string>
    </property>
   </widget>
   <widget class="QLabel" name="judet_label">
@@ -258,7 +258,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Judet</string>
+    <string>Judet*</string>
    </property>
   </widget>
   <widget class="QLabel" name="country_label">
@@ -274,7 +274,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Tara</string>
+    <string>Tara*</string>
    </property>
   </widget>
   <widget class="QLabel" name="nr_street_label">
@@ -290,7 +290,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Nr</string>
+    <string>Nr*</string>
    </property>
   </widget>
   <widget class="QLabel" name="cod_postal">
@@ -306,7 +306,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Cod postal</string>
+    <string>Cod postal*</string>
    </property>
   </widget>
   <widget class="QLabel" name="oras_label">
@@ -322,7 +322,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Oras</string>
+    <string>Oras*</string>
    </property>
   </widget>
   <widget class="QLabel" name="telefon_label">
@@ -338,7 +338,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Telefon</string>
+    <string>Telefon*</string>
    </property>
   </widget>
   <widget class="QLabel" name="web_site_label">
@@ -511,7 +511,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string/>
    </property>
   </widget>
-  <widget class="QLineEdit" name="street_input_2">
+  <widget class="QLineEdit" name="telefon_input">
    <property name="geometry">
     <rect>
      <x>580</x>
@@ -546,7 +546,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>Name</string>
+    <string>Name*</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="name_input">
@@ -724,12 +724,13 @@ border-right-color: rgb(160,160,160);
    <property name="styleSheet">
     <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
 border-top: 1px solid;
-border-top-color: rgb(174, 139, 137);
+border-top-color:rgb(160,160,160);
 border-left: 1px solid;
 border-left-color: rgb(160,160,160);
 border-right: 1px solid;
 border-right-color: rgb(160,160,160);
-</string>
+border-bottom: 1px solid;
+border-bottom-color: rgb(160,160,160);</string>
    </property>
    <property name="text">
     <string>Internal Notes</string>
@@ -776,6 +777,45 @@ border-bottom-color: rgb(160,160,160);</string>
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="image">
+   <property name="geometry">
+    <rect>
+     <x>795</x>
+     <y>130</y>
+     <width>100</width>
+     <height>100</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_upload_image">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>150</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <weight>1</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 50 8 &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Upload Image</string>
+   </property>
+  </widget>
   <zorder>label_9</zorder>
   <zorder>background_color</zorder>
   <zorder>kanban_bg_color</zorder>
@@ -788,8 +828,8 @@ border-bottom-color: rgb(160,160,160);</string>
   <zorder>line_5</zorder>
   <zorder>line_6</zorder>
   <zorder>label</zorder>
-  <zorder>radioButton</zorder>
-  <zorder>radioButton_2</zorder>
+  <zorder>rb_fizica</zorder>
+  <zorder>rb_juridica</zorder>
   <zorder>label_2</zorder>
   <zorder>street_label</zorder>
   <zorder>judet_label</zorder>
@@ -806,7 +846,7 @@ border-bottom-color: rgb(160,160,160);</string>
   <zorder>nr_street_input</zorder>
   <zorder>zip_code_input</zorder>
   <zorder>oras_input</zorder>
-  <zorder>street_input_2</zorder>
+  <zorder>telefon_input</zorder>
   <zorder>name_label</zorder>
   <zorder>name_input</zorder>
   <zorder>street_label_2</zorder>
@@ -817,6 +857,8 @@ border-bottom-color: rgb(160,160,160);</string>
   <zorder>label_4</zorder>
   <zorder>label_5</zorder>
   <zorder>label_6</zorder>
+  <zorder>image</zorder>
+  <zorder>btn_upload_image</zorder>
  </widget>
  <resources/>
  <connections/>
