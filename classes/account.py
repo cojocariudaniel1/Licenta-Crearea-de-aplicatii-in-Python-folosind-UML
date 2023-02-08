@@ -19,3 +19,4 @@ class Account(Base):
         self.bank = bank
         self.account_number = account_number
         self.send_money = send_money
+

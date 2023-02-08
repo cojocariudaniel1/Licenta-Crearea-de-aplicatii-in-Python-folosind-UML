@@ -1,12 +1,13 @@
 import logging
 
 from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from base import Session
 from client import Client
 from account import Account
-from views.client_create_form_view import Ui_Form
+from views.form_create import Ui_Form
 
 
 class ClientCreateForm(QtWidgets.QWidget):
@@ -48,7 +49,8 @@ class ClientCreateForm(QtWidgets.QWidget):
                                                   "Image Files (*.png *.jpg *.jpeg *.bmp)")
         if fileName:
             pixmap = QtGui.QPixmap(fileName)
-            self.ui.image.setPixmap(pixmap.scaled(100, 100))
+            scaled_pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.ui.image.setPixmap(scaled_pixmap)
             self.client_icon_image_path = fileName
 
     def add_client_to_database(self):
