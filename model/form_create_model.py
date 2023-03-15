@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from base import Session
 from client import Client
-from account import Account
-from views.form_create import Ui_Form
+from model.custom_classes.custom_tree_view import CustomTreeFrame
+from views.create_client_view import Ui_CreateClientForm
 
 
 class ClientCreateForm(QtWidgets.QWidget):
@@ -15,7 +15,7 @@ class ClientCreateForm(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.new_window = None
-        self.ui = Ui_Form()
+        self.ui = Ui_CreateClientForm()
         self.ui.setupUi(self)
 
         # Default icon
@@ -37,6 +37,23 @@ class ClientCreateForm(QtWidgets.QWidget):
 
         self.ui.save_button.clicked.connect(self.add_client_to_database)
         self.ui.close_button.clicked.connect(self.close_window)
+        self.ui.frame_accounting.setStyleSheet('border: 1px gray')
+        self.tree = CustomTreeFrame(0, 10, 500, 200, ('button_icons', 'button_icons', 'button_icons'), self.ui.frame_accounting)
+        self.account_tree_frame()
+
+        self.ui.add_acc.clicked.connect(self.test1)
+        self.ui.delete_accounting.clicked.connect(self.delete_account)
+    def account_tree_frame(self):
+        self.tree.show()
+
+    def delete_account(self):
+        for k in self.tree.rows:
+            if k.check:
+                print(k.id_frame)
+
+    def test1(self):
+        print(self.tree.rows[-1].id_frame)
+        self.tree.scroll_area.ensureWidgetVisible(self.tree.rows[-1])
 
     def close_window(self):
         self.close()

@@ -271,6 +271,12 @@ class Ui_Form(object):
 "color: rgb(255, 255, 255);\n"
 "font: 50 8 \"MS Shell Dlg 2\";")
         self.btn_upload_image.setObjectName("btn_upload_image")
+        self.btn_delete = QtWidgets.QPushButton(Form)
+        self.btn_delete.setGeometry(QtCore.QRect(155, 30, 121, 41))
+        self.btn_delete.setStyleSheet("background-color: rgb(174, 139, 137);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"MS Shell Dlg 2\";")
+        self.btn_delete.setObjectName("btn_delete")
         self.label_9.raise_()
         self.background_color.raise_()
         self.kanban_bg_color.raise_()
@@ -314,6 +320,7 @@ class Ui_Form(object):
         self.label_6.raise_()
         self.image.raise_()
         self.btn_upload_image.raise_()
+        self.btn_delete.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -341,3 +348,4 @@ class Ui_Form(object):
         self.label_3.setText(_translate("Form", "Accounting"))
         self.label_4.setText(_translate("Form", "Internal Notes"))
         self.btn_upload_image.setText(_translate("Form", "Upload Image"))
+        self.btn_delete.setText(_translate("Form", "DELETE"))

@@ -1,10 +1,11 @@
 from sqlalchemy import Column, String, Integer, LargeBinary  # Import library sql
 from sqlalchemy.orm import relationship
-
+from bankaccount import BankAccount
 from base import Base
+from sales import SalesTable
 
 
-class Client(Base):
+class ClientTable(Base):
     __tablename__ = "client"
 
     id = Column(Integer, primary_key=True)
@@ -20,7 +21,8 @@ class Client(Base):
     email = Column(String)
     zip_code = Column(Integer)
     image = Column(LargeBinary)
-    account = relationship("Account", back_populates="client", uselist=False)
+    account = relationship("BankAccount", back_populates="client", uselist=False)
+    sale = relationship("SalesTable", back_populates="client")
 
     def __init__(self, type_client, name, street, street_number, city, district, country, phone, web_site, email,
                  zip_code, image ):

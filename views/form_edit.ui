@@ -816,6 +816,24 @@ font: 50 8 &quot;MS Shell Dlg 2&quot;;</string>
     <string>Upload Image</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_delete">
+   <property name="geometry">
+    <rect>
+     <x>155</x>
+     <y>30</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>DELETE</string>
+   </property>
+  </widget>
   <zorder>label_9</zorder>
   <zorder>background_color</zorder>
   <zorder>kanban_bg_color</zorder>
@@ -859,6 +877,7 @@ font: 50 8 &quot;MS Shell Dlg 2&quot;;</string>
   <zorder>label_6</zorder>
   <zorder>image</zorder>
   <zorder>btn_upload_image</zorder>
+  <zorder>btn_delete</zorder>
  </widget>
  <resources/>
  <connections/>

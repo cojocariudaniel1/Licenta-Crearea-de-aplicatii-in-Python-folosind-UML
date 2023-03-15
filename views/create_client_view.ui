@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>CreateClientForm</class>
+ <widget class="QWidget" name="CreateClientForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -686,39 +686,13 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string>CLOSE</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>486</y>
-     <width>130</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
-border-top: 1px solid;
-border-top-color: rgb(174, 139, 137);
-border-left: 1px solid;
-border-left-color: rgb(160,160,160);
-border-right: 1px solid;
-border-right-color: rgb(160,160,160);
-</string>
-   </property>
-   <property name="text">
-    <string>Accounting</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QLabel" name="internal_notes">
    <property name="geometry">
     <rect>
      <x>249</x>
-     <y>486</y>
-     <width>130</width>
-     <height>31</height>
+     <y>484</y>
+     <width>132</width>
+     <height>33</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -816,6 +790,95 @@ font: 50 8 &quot;MS Shell Dlg 2&quot;;</string>
     <string>Upload Image</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>118</x>
+     <y>484</y>
+     <width>132</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 11pt &quot;MS Shell Dlg 2&quot;;
+border-top: 1px solid;
+border-top-color: rgb(174, 139, 137);
+border-left: 1px solid;
+border-left-color: rgb(160,160,160);
+border-right: 1px solid;
+border-right-color: rgb(160,160,160);</string>
+   </property>
+   <property name="text">
+    <string>Bank Accounts</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame_accounting">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>515</y>
+     <width>886</width>
+     <height>206</height>
+    </rect>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>0</width>
+     <height>1</height>
+    </size>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="midLineWidth">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="add_acc">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>525</y>
+     <width>76</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>ADD</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="delete_accounting">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>560</y>
+     <width>76</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>DEL</string>
+   </property>
+  </widget>
   <zorder>label_9</zorder>
   <zorder>background_color</zorder>
   <zorder>kanban_bg_color</zorder>
@@ -853,12 +916,15 @@ font: 50 8 &quot;MS Shell Dlg 2&quot;;</string>
   <zorder>email_input</zorder>
   <zorder>web_site_input</zorder>
   <zorder>close_button</zorder>
-  <zorder>label_3</zorder>
-  <zorder>label_4</zorder>
+  <zorder>internal_notes</zorder>
   <zorder>label_5</zorder>
   <zorder>label_6</zorder>
   <zorder>image</zorder>
   <zorder>btn_upload_image</zorder>
+  <zorder>pushButton_2</zorder>
+  <zorder>frame_accounting</zorder>
+  <zorder>add_acc</zorder>
+  <zorder>delete_accounting</zorder>
  </widget>
  <resources/>
  <connections/>

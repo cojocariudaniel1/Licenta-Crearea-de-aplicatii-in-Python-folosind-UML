@@ -4,14 +4,14 @@ from sqlalchemy.orm import relationship
 from base import Base
 
 
-class Account(Base):
+class BankAccount(Base):
     __tablename__ = "account"
 
     id = Column(Integer, primary_key=True)
     bank = Column(String)
     account_number = Column(Integer)
     send_money = Column(Integer)
-    client = relationship("Client", back_populates="account", uselist=False)
+    client = relationship("ClientTable", back_populates="account", uselist=False)
 
     client_id = Column(Integer, ForeignKey("client.id"))
 

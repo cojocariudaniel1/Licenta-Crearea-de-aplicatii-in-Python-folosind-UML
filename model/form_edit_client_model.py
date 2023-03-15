@@ -31,6 +31,8 @@ class ClientEditForm(QtWidgets.QWidget):
         self.ui.save_button.clicked.connect(self.save_button)
         self.ui.btn_upload_image.clicked.connect(self.upload_image)
 
+        self.ui.btn_delete.clicked.connect(self.delete_client)
+
     def upload_image(self):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
@@ -87,6 +89,18 @@ class ClientEditForm(QtWidgets.QWidget):
         except BaseException as e:
             logging.exception(e)
 
+    def delete_client(self):
+        session = Session()
+
+        try:
+            client = session.query(Client).filter(Client.id == self.id_client).first()
+            session.delete(client)
+            session.commit()
+            QMessageBox.information(self, "Client Sters cu succes",
+                                    "Clientul a fost sters cu succes din baza de date")
+            self.close()
+        except BaseException as e:
+            logging.exception(e)
     def populate_data(self):
 
         try:

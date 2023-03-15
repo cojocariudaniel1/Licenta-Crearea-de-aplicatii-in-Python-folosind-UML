@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_window.ui'
+# Form implementation generated from reading ui file 'client_view.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.7
 #
@@ -96,6 +96,16 @@ class Ui_Form(object):
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
+        self.previous_page_text = QtWidgets.QLabel(Form)
+        self.previous_page_text.setGeometry(QtCore.QRect(915, 700, 111, 26))
+        self.previous_page_text.setStyleSheet("color: rgb(255, 255, 255);")
+        self.previous_page_text.setAlignment(QtCore.Qt.AlignCenter)
+        self.previous_page_text.setObjectName("previous_page_text")
+        self.next_page_text = QtWidgets.QLabel(Form)
+        self.next_page_text.setGeometry(QtCore.QRect(1075, 700, 91, 26))
+        self.next_page_text.setStyleSheet("color: rgb(255, 255, 255);")
+        self.next_page_text.setAlignment(QtCore.Qt.AlignCenter)
+        self.next_page_text.setObjectName("next_page_text")
         self.antet_color.raise_()
         self.create_customer.raise_()
         self.label.raise_()
@@ -107,6 +117,8 @@ class Ui_Form(object):
         self.label_6.raise_()
         self.page.raise_()
         self.frame.raise_()
+        self.previous_page_text.raise_()
+        self.next_page_text.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -118,3 +130,5 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "Costumers"))
         self.label_3.setText(_translate("Form", "Filter"))
         self.page.setText(_translate("Form", "10/10"))
+        self.previous_page_text.setText(_translate("Form", "Previous Page"))
+        self.next_page_text.setText(_translate("Form", "Next Page  "))
