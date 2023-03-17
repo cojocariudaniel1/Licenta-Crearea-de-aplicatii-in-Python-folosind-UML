@@ -6,8 +6,8 @@ from PyQt5.QtGui import QMouseEvent, QPixmap, QImage
 from PyQt5.QtWidgets import QLabel, QTreeWidgetItem, QHBoxLayout, QVBoxLayout, QWidget
 from qtpy import QtCore
 
-from base import Session
-from client import Client
+from repository.client.client_methods import get_clients_for_kanban, get_clients_for_populate_tree_view, \
+    get_clients_with_offes
 
 from model.custom_classes.custom_frame import FRAME_LIST, CustomFrame
 
@@ -157,16 +157,11 @@ class ClientWindow(QtWidgets.QWidget):
                     self.clearLayout(item.layout())
 
     def populate_kanban_view(self):
-        session = Session()
-        # clients = session.query(Client).limit(12).all()
-        clients = session.query(Client).order_by(Client.id).limit(12).all()
-        clients_page = session.query(Client).order_by(Client.id).all()
-        session.close()
-
+        clients = get_clients_for_kanban()
         self.kanban_page_nr = 1
         # get pages number
         counter_page_var = 0
-        for i in clients_page:
+        for i in range(clients[1]):
             if counter_page_var < 12:
 
                 counter_page_var += 1
@@ -176,31 +171,27 @@ class ClientWindow(QtWidgets.QWidget):
 
         self.ui.page.setText(f"{self.kanban_current_page}/{self.kanban_page_nr}")
 
-        self.generate_kanban_after_page_changed(clients)
+        self.generate_kanban_after_page_changed(clients[0])
+
     def kanban_previous_page(self):
         try:
-            session = Session()
             if self.kanban_current_page == 1:
                 generate_kanban_bool = False
-                print('min page')
             else:
                 generate_kanban_bool = True
                 self.kanban_current_page -= 1
                 self.ui.page.setText(f"{self.kanban_current_page}/{self.kanban_page_nr}")
                 FRAME_LIST.clear()
             current_page = (self.kanban_current_page - 1) * 12
-            print(current_page)
             if generate_kanban_bool:
-                clients = session.query(Client).order_by(Client.id).offset(current_page).limit(12).all()
+                clients = get_clients_with_offes(current_page)
                 self.generate_kanban_after_page_changed(clients)
-            session.close()
         except BaseException as e:
             logging.exception(e)
 
     def kanban_next_page(self):
         try:
             logging.info("execute kanban_next_page")
-            session = Session()
             if self.kanban_current_page == self.kanban_page_nr:
                 generate_kanban_bool = False
             else:
@@ -209,12 +200,9 @@ class ClientWindow(QtWidgets.QWidget):
                 self.ui.page.setText(f"{self.kanban_current_page}/{self.kanban_page_nr}")
                 FRAME_LIST.clear()
             current_page = (self.kanban_current_page - 1) * 12
-            print(current_page)
             if generate_kanban_bool:
-                clients = session.query(Client).order_by(Client.id).offset(current_page).limit(12).all()
-                logging.info("execute generate_kanban_after_page_changed")
+                clients = get_clients_with_offes(current_page)
                 self.generate_kanban_after_page_changed(clients)
-                session.close()
         except BaseException as e:
             logging.exception(e)
 
@@ -292,12 +280,10 @@ class ClientWindow(QtWidgets.QWidget):
             logging.exception(e)
 
     def populate_tree_vew(self):
-        session = Session()
-        print("preread")
         try:
             self.client_list.clear()
             self.tree_widget.clear()
-            clients = session.query(Client).order_by(Client.id).all()
+            clients = get_clients_for_populate_tree_view()
             for i in clients:
                 db_client = [i.id, i.type_client, i.name, i.street, i.street_number, i.city, i.district, i.country,
                              i.zip_code,
@@ -310,10 +296,8 @@ class ClientWindow(QtWidgets.QWidget):
             self.client_list.sort(key=lambda x: int(x[0]))
             for row in self.client_list:
                 self.tree_widget.addTopLevelItem(QTreeWidgetItem(row))
-            session.close()
         except BaseException as e:
             logging.exception(e)
-            session.close()
 
     def select_list_view(self):
         try:

@@ -9,3 +9,24 @@
 De facut la final/completat: Adaugare Tree view in [Creat Client] Form si [Edit Client Form].
 
 """
+
+def test():
+    list = []
+    dict1 = {
+        "name": 'test',
+        "width": 100
+    }
+
+    dict2 = {
+        "name": 'test',
+        "width": 100
+    }
+    list.append(dict2)
+    list.append(dict1)
+    for idx, value in enumerate(list):
+        print(value)
+
+
+
+
+test()

@@ -7,8 +7,8 @@ from PyQt5.QtCore import Qt, QBuffer
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
-from base import Session
-from client import Client
+
+from repository.client.client_methods import save_client, delete_client, get_client_by_id
 from views.form_edit import Ui_Form
 
 
@@ -23,7 +23,7 @@ class ClientEditForm(QtWidgets.QWidget):
         self.id_client = id_client
         self.client_icon_image_path = ""
         self.image_upload = False
-
+        print(self.id_client)
 
         if self.id_client is not None:
             self.populate_data()
@@ -57,80 +57,62 @@ class ClientEditForm(QtWidgets.QWidget):
     def save_button(self):
         try:
             if self.id_client is not None:
-                session = Session()
-                client = session.query(Client).filter(Client.id == self.id_client).first()
-
-                client.name = self.ui.name_input.text()
+                name = self.ui.name_input.text()
                 if self.ui.rb_fizica.isChecked():
-                    client.type_client = "Fizica"
+                    type_client = "Fizica"
                 else:
-                    client.type_client = "Juridica"
-                client.street = self.ui.street_input.text()
-                client.street_number = self.ui.nr_street_input.text()
-                client.city = self.ui.oras_input.text()
-                client.district = self.ui.judet_input.text()
-                client.country = self.ui.country_input.text()
-                client.phone = self.ui.telefon_input.text()
-                client.email = self.ui.email_input.text()
-                client.zip_code = self.ui.zip_code_input.text()
+                    type_client = "Juridica"
+                street = self.ui.street_input.text()
+                street_number = self.ui.nr_street_input.text()
+                city = self.ui.oras_input.text()
+                district = self.ui.judet_input.text()
+                country = self.ui.country_input.text()
+                phone = self.ui.telefon_input.text()
+                email = self.ui.email_input.text()
+                zip_code = self.ui.zip_code_input.text()
                 if self.image_upload:
                     with open(self.client_icon_image_path, "rb") as f:
-                        client.image = f.read()
+                        image = f.read()
                 else:
                     buffer = QBuffer()
                     buffer.open(QBuffer.ReadWrite)
                     self.ui.image.pixmap().save(buffer, "PNG")
                     image_binary_data = buffer.data()
-                    client.image = image_binary_data
-                session.commit()
-                session.close()
+                    image = image_binary_data
+                save_client(self.id_client, name, type_client, street, street_number, city, district, country, phone, email, zip_code, image)
                 QMessageBox.information(self, "Client Modificat cu succes", "Datele au fost modificate cu succes si adaugate in baza de date")
                 self.close()
         except BaseException as e:
             logging.exception(e)
 
     def delete_client(self):
-        session = Session()
+        delete_client(self.id_client)
 
-        try:
-            client = session.query(Client).filter(Client.id == self.id_client).first()
-            session.delete(client)
-            session.commit()
-            QMessageBox.information(self, "Client Sters cu succes",
-                                    "Clientul a fost sters cu succes din baza de date")
-            self.close()
-        except BaseException as e:
-            logging.exception(e)
+        QMessageBox.information(self, "Client Sters cu succes",
+                                "Clientul a fost sters cu succes din baza de date")
+        self.close()
+
     def populate_data(self):
+        client = [get_client_by_id(self.id_client)]
 
-        try:
-            session = Session()
-            client = session.query(Client).filter(Client.id == self.id_client).all()
+        for column in client:
+            self.ui.name_input.setText(str(column.name))
+            if column.type_client == "Fizica":
+                self.ui.rb_fizica.setChecked(True)
+            else:
+                self.ui.rb_juridica.setChecked(True)
+            self.ui.street_input.setText(str(column.street))
+            self.ui.nr_street_input.setText(str(column.street_number))
+            self.ui.oras_input.setText(str(column.city))
+            self.ui.judet_input.setText(str(column.district))
+            self.ui.country_input.setText(str(column.country))
+            self.ui.telefon_input.setText(str(column.phone))
+            self.ui.email_input.setText(str(column.email))
+            self.ui.zip_code_input.setText(str(column.zip_code))
 
-            for column in client:
-                self.ui.name_input.setText(str(column.name))
-                if column.type_client == "Fizica":
-                    self.ui.rb_fizica.setChecked(True)
-                else:
-                    self.ui.rb_juridica.setChecked(True)
-                self.ui.street_input.setText(str(column.street))
-                self.ui.nr_street_input.setText(str(column.street_number))
-                self.ui.oras_input.setText(str(column.city))
-                self.ui.judet_input.setText(str(column.district))
-                self.ui.country_input.setText(str(column.country))
-                self.ui.telefon_input.setText(str(column.phone))
-                self.ui.email_input.setText(str(column.email))
-                self.ui.zip_code_input.setText(str(column.zip_code))
-                try:
-                    binary_data = column.image
-                    image = Image.open(io.BytesIO(binary_data))
-                    qimage = QImage.fromData(binary_data, "PNG")
-                    pixmap = QPixmap.fromImage(qimage)
-                    scaled_pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                    self.ui.image.setPixmap(scaled_pixmap)
-                except BaseException as e:
-                    session.close()
-                    print(f"A avut loc o eroare: {e}")
-            session.close()
-        except BaseException as e:
-            logging.exception(e)
+            binary_data = column.image
+            qimage = QImage.fromData(binary_data, "PNG")
+            pixmap = QPixmap.fromImage(qimage)
+            scaled_pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.ui.image.setPixmap(scaled_pixmap)
+

@@ -4,11 +4,9 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
-from base import Session
-from client import Client
 from model.custom_classes.custom_tree_view import CustomTreeFrame
 from views.create_client_view import Ui_CreateClientForm
-
+from repository.client.client_methods import create_client
 
 class ClientCreateForm(QtWidgets.QWidget):
 
@@ -99,14 +97,7 @@ class ClientCreateForm(QtWidgets.QWidget):
                 QMessageBox.warning(self, f"Campuri necompletate", f"Completati toate campurile obligatorii")
                 return
 
-            client = Client(type_client=type_client, name=name, street=street, street_number=street_number,
-                            city=city, district=district, country=country, phone=phone, web_site=web_site, email=email,
-                            zip_code=zip_code, image=image)
-
-            session = Session()
-            session.add(client)
-            session.commit()
-            session.close()
+            create_client(type_client, name, street, street_number, city, district, country, phone, web_site, email, zip_code, image)
 
             QMessageBox.information(self, "Client adaugat", "Clientul a fost adaugat cu succes in baza de date")
         except BaseException as e:

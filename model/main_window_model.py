@@ -9,7 +9,7 @@ from PyQt5.QtGui import QImage, QPixmap, QIcon
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QPushButton
 
 from base import Session
-from client import Client
+from client import ClientTable
 from model.client_view_model import ClientWindow
 from views.main_window import Ui_Form
 
