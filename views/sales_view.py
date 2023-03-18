@@ -54,11 +54,35 @@ class Ui_Form(object):
         self.sales_view_layout.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.sales_view_layout.setFrameShadow(QtWidgets.QFrame.Raised)
         self.sales_view_layout.setObjectName("sales_view_layout")
+        self.print_btn = QtWidgets.QPushButton(Form)
+        self.print_btn.setGeometry(QtCore.QRect(330, 75, 121, 41))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.print_btn.sizePolicy().hasHeightForWidth())
+        self.print_btn.setSizePolicy(sizePolicy)
+        self.print_btn.setStyleSheet("background-color: rgb(174, 139, 137);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"MS Shell Dlg 2\";")
+        self.print_btn.setObjectName("print_btn")
+        self.update_btn = QtWidgets.QPushButton(Form)
+        self.update_btn.setGeometry(QtCore.QRect(470, 75, 121, 41))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.update_btn.sizePolicy().hasHeightForWidth())
+        self.update_btn.setSizePolicy(sizePolicy)
+        self.update_btn.setStyleSheet("background-color: rgb(174, 139, 137);\n"
+"color: rgb(255, 255, 255);\n"
+"font: 75 14pt \"MS Shell Dlg 2\";")
+        self.update_btn.setObjectName("update_btn")
         self.antet_color.raise_()
         self.create_customer.raise_()
         self.lb_title.raise_()
         self.lb_filter.raise_()
         self.sales_view_layout.raise_()
+        self.print_btn.raise_()
+        self.update_btn.raise_()
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -69,6 +93,8 @@ class Ui_Form(object):
         self.create_customer.setText(_translate("Form", "NEW"))
         self.lb_title.setText(_translate("Form", "Sales"))
         self.lb_filter.setText(_translate("Form", "Filter"))
+        self.print_btn.setText(_translate("Form", "PRINT"))
+        self.update_btn.setText(_translate("Form", "UPDATE"))
 
 
 if __name__ == "__main__":
