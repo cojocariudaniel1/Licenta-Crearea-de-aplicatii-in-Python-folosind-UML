@@ -8,11 +8,13 @@ from sales import SalesTable
 from bankaccount import BankAccount
 from SalesProduct import SaleProducts
 
+
 def delete_db():
     session = Session()
     Base.metadata.reflect(bind=engine)  # To reflect any tables in the DB, but not in the current schema
     Base.metadata.drop_all(bind=engine)
     session.commit()
+
 
 def update_quantity_sales(sale_id, products, session):
     """
@@ -27,28 +29,53 @@ def update_quantity_sales(sale_id, products, session):
                 update(SaleProducts).
                 where(SaleProducts.sales_id == sale_id, SaleProducts.product_id == product.id).
                 values(quantity=76)
-             )
+            )
         )
+
 
 def sale():
     session = Session()
-    product1 = ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1")
-    product2= ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1")
-    product3= ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1")
-    product4= ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1")
+    product1 = ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1", 15)
+    product2 = ProductTable("Paine", "Consumabil", "buc", 200, 5, "Deposit1", 15)
+    product3 = ProductTable("Paine", "Consumabil", "buc", 30, 5, "Deposit1", 15)
+    product4 = ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1", 15)
 
-    sale1 = SalesTable("S1002")
+    sale1 = SalesTable("S1001")
+    sale2 = SalesTable("S1002")
+    sale3 = SalesTable("S1003")
+
+    sale1.client = ClientTable("Individual", "Cojocariu Daniel", "Libertatea", 5, "Iasi", "Iasi", "Romania", 74213211,
+                               "None", "daniel@gmail.com", 343123, None)
     sale1.product = [product4, product2]
+    price = 0
+    for i in sale1.product:
+        price += i.price * i.quantity
+    sale1.total = price
+    sale2.client = ClientTable("Fizica", "Danila Daniel", "Sperantei", 5, "Iasi", "Iasi", "Romanai", 72313131, "None",
+                               "danila@gmail.com", 331213, None)
+    sale2.product = [product1, product3]
+    price = 0
+    for i in sale2.product:
+        price += i.price * i.quantity
+    sale2.total = price
 
+    sale3.client = ClientTable("Fizica", "Danila Daniel", "Sperantei", 5, "Iasi", "Iasi", "Romanai", 72313131, "None",
+                               "danila@gmail.com", 331213, None)
+    sale3.product = [product1, product3]
+    price = 0
+    for i in sale3.product:
+        price += i.price * i.quantity
+    sale3.total = price
     session.add_all(
         [
-            product1, product2,product4,product3,
-            sale1,
+            product1, product2, product4, product3,
+            sale1, sale2, sale3
         ]
     )
 
     session.commit()
     session.close()
+
 
 def populate_database():
     session = Session()
@@ -60,73 +87,76 @@ def populate_database():
 
     bankaccount1 = BankAccount("BRD", 52322400, 1)
 
-
-
     client1 = ClientTable("Fizica", "Maria Ion", "Strada Mihai Viteazu", 12, "Constanta", "Constanta", "Romania",
-                     "0742111222", "", "maria.ion@email.com", 1001, image)
-
+                          "0742111222", "", "maria.ion@email.com", 1001, image)
 
     client1.account = bankaccount1
 
-    client2 = ClientTable("Juridic", "SC Compania SRL", "Strada Nicolae Balcescu", 22, "Bucuresti", "Bucuresti", "Romania",
-                     "0758111222", "", "compania.srl@email.com", 1002, image)
-
+    client2 = ClientTable("Juridic", "SC Compania SRL", "Strada Nicolae Balcescu", 22, "Bucuresti", "Bucuresti",
+                          "Romania",
+                          "0758111222", "", "compania.srl@email.com", 1002, image)
 
     client3 = ClientTable("Fizica", "Vasile Popescu", "Strada Aviatorilor", 17, "Cluj-Napoca", "Cluj", "Romania",
-                     "0742111223", "", "vasile.popescu@email.com", 1003, image)
+                          "0742111223", "", "vasile.popescu@email.com", 1003, image)
 
     client4 = ClientTable("Juridic", "SA Compania Maritima", "Strada Portului", 1, "Constanta", "Constanta", "Romania",
-                     "0758111223", "", "compania.maritima@email.com", 1004, image)
+                          "0758111223", "", "compania.maritima@email.com", 1004, image)
 
-    client5 = ClientTable("Fizica", "Elena Petrescu", "Strada Ion Creanga", 8, "Iasi", "Iasi", "Romania", "0742111224", "",
-                     "elena.petrescu@email.com", 1005, image)
+    client5 = ClientTable("Fizica", "Elena Petrescu", "Strada Ion Creanga", 8, "Iasi", "Iasi", "Romania", "0742111224",
+                          "",
+                          "elena.petrescu@email.com", 1005, image)
 
     client6 = ClientTable("Juridic", "SC Compania IT", "Strada George Cosbuc", 15, "Bucuresti", "Bucuresti", "Romania",
-                     "0758111224", "", "compania.it@email.com", 1006, image)
+                          "0758111224", "", "compania.it@email.com", 1006, image)
 
-    client7 = ClientTable("Fizica", "Andrei Stan", "Strada 1 Decembrie", 19, "Timisoara", "Timis", "Romania", "0742111225",
-                     "", "andrei.stan@email.com", 1007, image)
+    client7 = ClientTable("Fizica", "Andrei Stan", "Strada 1 Decembrie", 19, "Timisoara", "Timis", "Romania",
+                          "0742111225",
+                          "", "andrei.stan@email.com", 1007, image)
 
     client8 = ClientTable("Juridic", "SA Compania Constructii", "Strada Mihai Eminescu", 5, "Bucuresti", "Bucuresti",
-                     "Romania", "0758111225", "", "compania.constructii@email.com", 1008, image)
+                          "Romania", "0758111225", "", "compania.constructii@email.com", 1008, image)
 
-    client9 = ClientTable("Fizica", "Ana Maria Popescu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                     "ana.popescu@email.com", 1009, image)
+    client9 = ClientTable("Fizica", "Ana Maria Popescu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania",
+                          "0742111226", "",
+                          "ana.popescu@email.com", 1009, image)
 
     client10 = ClientTable("Fizica", "Ana Alexa", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+                           "ana.popescu@email.com", 1009, image)
     #
-    client11 = ClientTable("Fizica", "Daniel Cojocariu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+    client11 = ClientTable("Fizica", "Daniel Cojocariu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania",
+                           "0742111226", "",
+                           "ana.popescu@email.com", 1009, image)
 
-    client12 = ClientTable("Fizica", "Cosmin Hongu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+    client12 = ClientTable("Fizica", "Cosmin Hongu", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226",
+                           "",
+                           "ana.popescu@email.com", 1009, image)
 
-    client13 = ClientTable("Fizica", "Danila Daniek", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+    client13 = ClientTable("Fizica", "Danila Daniek", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226",
+                           "",
+                           "ana.popescu@email.com", 1009, image)
 
-    client14 = ClientTable("Fizica", "Danila aaaaaa", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+    client14 = ClientTable("Fizica", "Danila aaaaaa", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226",
+                           "",
+                           "ana.popescu@email.com", 1009, image)
 
-    client15 = ClientTable("Fizica", "Danila bbbbb", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+    client15 = ClientTable("Fizica", "Danila bbbbb", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226",
+                           "",
+                           "ana.popescu@email.com", 1009, image)
 
     client16 = ClientTable("Fizica", "Danila cccc", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image)
+                           "ana.popescu@email.com", 1009, image)
     session.add_all([client9, client8, client7, client6, client5])
     session.add_all([client1, client4, client3, client2, client10])
-    session.add_all([client11, client13,client12, client14, client16, client15])
+    session.add_all([client11, client13, client12, client14, client16, client15])
     for i in range(30):
-        session.add(ClientTable("Fizica", f"{i}0000 ", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
-                      "ana.popescu@email.com", 1009, image))
+        session.add(
+            ClientTable("Fizica", f"{i}0000 ", "Strada Carol I", 11, "Sibiu", "Sibiu", "Romania", "0742111226", "",
+                        "ana.popescu@email.com", 1009, image))
     sale()
     session.commit()
     session.close()
 
 
-
-
 if __name__ == "__main__":
     delete_db()
     populate_database()
-

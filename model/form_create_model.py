@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from model.custom_classes.custom_tree_view import CustomTreeFrame
 from views.create_client_view import Ui_CreateClientForm
-from repository.client.client_methods import create_client
+from repository.client_methods import create_client
 
 class ClientCreateForm(QtWidgets.QWidget):
 

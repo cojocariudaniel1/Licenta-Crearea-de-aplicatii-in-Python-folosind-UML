@@ -9,6 +9,8 @@ from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton
 
 from base import Session
 from model.custom_classes.custom_radio_button import CustomRadioButtonWidget
+from repository.sales_methods import get_all_sales
+from todoo import ExtendedComboBox
 from views.sales_view import Ui_Form
 import qtmodern.styles
 import qtmodern.windows
@@ -61,10 +63,12 @@ class RowEvent(QObject):
                     obj.setStyleSheet("#%s {background-color: #ffffff ;border-bottom: 1px solid #e9ecef;} " % self.row)
 
                 return True
+            if event.type() == QEvent.MouseButtonPress:
+
+                return True
             return False
         except BaseException as e:
             logging.exception(e)
-
 
 class ClickableLabel(QObject):
     click_label_signal = pyqtSignal(str)
@@ -76,8 +80,9 @@ class ClickableLabel(QObject):
     def eventFilter(self, obj, event):
         try:
             if event.type() == QEvent.MouseButtonPress:
-                self.signal_edit_label.emit(
+                self.click_label_signal.emit(
                     [obj.text(), [obj.x(), obj.y(), obj.width(), obj.height()], self.main_parent, obj.objectName()])
+
                 return True
 
             return False
@@ -137,6 +142,7 @@ class CustomTable(QFrame):
         self.header_columns = []
         self.header_objects = []
         self.data = []
+        self.data_id = []
         self.row_frames = []
         self.end_of_label_header = []
         self.edit_label_temp = None
@@ -144,12 +150,25 @@ class CustomTable(QFrame):
         self.height = height
         self.x = x
         self.y = y
-
+        self.setObjectName("table")
         self.default_height_row = 37
         # [1,37], [2, 37*2], [3,37*3]
         self.number_of_rows = [[1, self.default_height_row]]
 
-        self.header_frame = QFrame(self)
+        self.scroll_area = QtWidgets.QScrollArea(self)
+        self.scroll_area.setObjectName("scroll_area")
+        self.scroll_area.setGeometry(QRect(0,0, self.width(), self.height()))
+        self.scroll_widget = QtWidgets.QWidget()
+        self.scroll_widget.setGeometry(0, 0, self.width(), self.height())
+        self.scroll_area.setWidget(self.scroll_widget)
+        self.scroll_widget.setObjectName("scroll_widget")
+        self.scroll_area.setStyleSheet("#scroll_area {background-color: white}")
+        self.scroll_widget.setStyleSheet("#scroll_widget {background-color: white}")
+
+
+
+
+        self.header_frame = QFrame(self.scroll_widget)
         self.header_frame.setObjectName("rowframe")
         self.header_frame.setGeometry(QRect(0, 0, self.width(), self.default_height_row))
         self.header_frame.setStyleSheet("background-color: #e9ecef")
@@ -160,7 +179,10 @@ class CustomTable(QFrame):
         self.installEventFilter(self.event_hideInput)
         self.event_hideInput.hide_user_input_signal.connect(self.hide_user_input)
         self.test = False
-        self.column_events = []
+
+
+
+
 
     def hide_user_input(self):
         if self.edit_label_temp is not None:
@@ -221,11 +243,13 @@ class CustomTable(QFrame):
             font = QtGui.QFont("Arial", 11)
             font.setBold(True)
 
+            name_string = name.replace(" ", "")
+
             item = QLabel(f"{name}", self.header_frame)
-            item.setObjectName(f"{name}")
+            item.setObjectName(f"{name_string}")
             item.setGeometry(QRect(x, y, width, height))
 
-            item.setStyleSheet("#%s {background-color: #e9ecef; border-bottom: 0.5px solid gray;}" % name)
+            item.setStyleSheet("#%s {background-color: #e9ecef; border-bottom: 0.5px solid gray;}" % name_string)
 
             item.setAlignment(Qt.AlignCenter)
             item.setFont(font)
@@ -239,7 +263,7 @@ class CustomTable(QFrame):
             label_end_line.setGeometry(QRect(x + width - 3, y, 3, height, ))
             style1 = "background-color: #e9ecef; border-bottom: 0.5px solid gray;"
             label_end_line.setStyleSheet(style1)
-            event = LabelEvent(name, idx, item)
+            event = LabelEvent(name_string, idx, item)
             item.installEventFilter(event)
             event.end_of_line_signal.connect(self.change_end_line_style)
             self.end_of_label_header.append(label_end_line)
@@ -268,7 +292,6 @@ class CustomTable(QFrame):
                     # event = ClickLabel(frame_row, item)
                     # item.installEventFilter(event)
                     pass
-
         return item
 
     def edit_label(self, value: list = None):
@@ -301,7 +324,7 @@ class CustomTable(QFrame):
                 self.edit_label_temp.show()
                 self.edit_label_temp.setFocus()
 
-            print(self.edit_label_temp.objectName(), '323')
+
         else:
             try:
                 if self.edit_label_temp is not None:
@@ -319,10 +342,9 @@ class CustomTable(QFrame):
         last_id_of_row = self.number_of_rows[-1][0]
         current_row = [last_id_of_row + 1, last_id_of_row * self.default_height_row]
         self.number_of_rows.append(current_row)
-        row_frame = QFrame(self)
+        row_frame = QFrame(self.scroll_widget)
         row_frame.setObjectName(f"{row[0]}")
         row_frame.setGeometry(QRect(0, current_row[1], self.width(), self.default_height_row))
-        row_frame.setStyleSheet("background-color: yellow")
 
         for idx, column in enumerate(row):
             if idx != 0:
@@ -346,10 +368,10 @@ class CustomTable(QFrame):
         self.data.append(row_data)
         self.number_of_rows.append(current_row)
 
+
     def add_row(self, row):
         if len(row) != 0:
             if len(row) != len(self.header_columns):
-
                 logging.exception(msg="Data and columns don't match")
                 sys.exit()
             else:
@@ -359,11 +381,14 @@ class CustomTable(QFrame):
             sys.exit()
 
     def populate_table(self, data):
+        self.scroll_widget.setGeometry(0,0, self.width(),(len(data) + 1) * self.default_height_row )
         for row in data:
-            self.add_row(row)
+            self.data_id.append(row[0])
+            self.add_row(row[1:])
+
 
     def print_data(self):
-        pass
+        print(self.data_id)
 
     def setUpHeader(self):
         # column[0] -> name of the column, column[1] -> width of the column
@@ -381,7 +406,7 @@ class CustomTable(QFrame):
                     else:
                         item = self.QLabelHeader(column[0], 0, 0, column[1], self.default_height_row, idx)
                         self.header_objects.append({"idx": idx, "obj": item, "event": None})
-            print(self.header_objects)
+
         except BaseException as e:
             logging.exception(e)
 
@@ -399,22 +424,28 @@ class SalesForm(QtWidgets.QWidget):
         self.tableView.setObjectName("tableView")
         header_list = [
             {"name": "Number", "width": 100},
-            {"name": "Customer", "width": 500},
-            {"name": "Customer", "width": 100},
-            {"name": "Customer", "width": 200},
+            {"name": "Creation Date", "width": 150},
+            {"name": "Client", "width": 200},
+            {"name": "Total", "width": 100},
+
 
         ]
         self.tableView.header(header_list)
-        self.tableView.header_objects[2]["event"] = "editable"
 
-        data = [["tes5", "test6", "test7", "test8"], ["test1", "test2", "test3", "test4"],
-                ["tes5", "test6", "test7", "test8"], ["tes5", "test6", "test7", "test8"]]
+        data = [[1, "tes5", "test6", "test7", "test8"], [2, "test1", "test2", "test3", "test4"],
+                [3, "tes5", "test6", "test7", "test8"], [4, "tes5", "test2222", "test7", "test8"]]
         self.tableView.populate_table(data)
 
         self.event_userinput = HideUserInput()
         self.installEventFilter(self.event_userinput)
         self.event_userinput.hide_user_input_signal.connect(self.hide_user_input)
-        self.ui.print_btn.clicked.connect(self.tableView.print_data)
+
+
+        # self.combobox = ExtendedComboBox()
+        # self.combobox.setObjectName("ComboBox")
+        # self.combobox.setParent(self)
+        # self.combobox.setGeometry(QRect(100,100, 250, 20))
+        # self.combobox.addItems(["Cojocariu Daniel", "Danila Daniel", "Test1", "Test2", "Test3"])
 
     def hide_user_input(self):
         self.tableView.edit_label(None)

@@ -6,7 +6,7 @@ from PyQt5.QtGui import QMouseEvent, QPixmap, QImage
 from PyQt5.QtWidgets import QLabel, QTreeWidgetItem, QHBoxLayout, QVBoxLayout, QWidget
 from qtpy import QtCore
 
-from repository.client.client_methods import get_clients_for_kanban, get_clients_for_populate_tree_view, \
+from repository.client_methods import get_clients_for_kanban, get_clients_for_populate_tree_view, \
     get_clients_with_offes
 
 from model.custom_classes.custom_frame import FRAME_LIST, CustomFrame

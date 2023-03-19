@@ -1,14 +1,12 @@
-import io
 import logging
 
-from PIL import Image
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt, QBuffer
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 
-from repository.client.client_methods import save_client, delete_client, get_client_by_id
+from repository.client_methods import save_client, delete_client, get_client_by_id
 from views.form_edit import Ui_Form
 
 

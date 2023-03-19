@@ -97,7 +97,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string/>
    </property>
   </widget>
-  <widget class="QFrame" name="sales_view_layout">
+  <widget class="QFrame" name="product_table_layout">
    <property name="geometry">
     <rect>
      <x>33</x>
@@ -113,11 +113,61 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <enum>QFrame::Raised</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="print_btn">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>75</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>PRINT</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="update_btn">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>75</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>UPDATE</string>
+   </property>
+  </widget>
   <zorder>antet_color</zorder>
   <zorder>create_customer</zorder>
   <zorder>lb_title</zorder>
   <zorder>lb_filter</zorder>
-  <zorder>sales_view_layout</zorder>
+  <zorder>product_table_layout</zorder>
+  <zorder>print_btn</zorder>
+  <zorder>update_btn</zorder>
  </widget>
  <resources/>
  <connections/>
