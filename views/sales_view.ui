@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="create_customer">
+  <widget class="QPushButton" name="create_sale_btn">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -114,7 +114,7 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
   </widget>
   <zorder>antet_color</zorder>
-  <zorder>create_customer</zorder>
+  <zorder>create_sale_btn</zorder>
   <zorder>lb_title</zorder>
   <zorder>lb_filter</zorder>
   <zorder>sales_view_layout</zorder>

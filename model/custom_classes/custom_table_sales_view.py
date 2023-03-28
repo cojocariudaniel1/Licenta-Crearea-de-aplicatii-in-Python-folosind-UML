@@ -8,6 +8,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton
 
 from base import Session
+from client import ClientTable
 from model.custom_classes.custom_radio_button import CustomRadioButtonWidget
 from repository.sales_methods import get_all_sales
 from todoo import ExtendedComboBox
@@ -64,11 +65,11 @@ class RowEvent(QObject):
 
                 return True
             if event.type() == QEvent.MouseButtonPress:
-
                 return True
             return False
         except BaseException as e:
             logging.exception(e)
+
 
 class ClickableLabel(QObject):
     click_label_signal = pyqtSignal(str)
@@ -80,9 +81,7 @@ class ClickableLabel(QObject):
     def eventFilter(self, obj, event):
         try:
             if event.type() == QEvent.MouseButtonPress:
-                self.click_label_signal.emit(
-                    [obj.text(), [obj.x(), obj.y(), obj.width(), obj.height()], self.main_parent, obj.objectName()])
-
+                self.click_label_signal.emit(obj.objectName())
                 return True
 
             return False
@@ -136,6 +135,7 @@ class LabelEvent(QObject):
 
 
 class CustomTable(QFrame):
+    click_signal = pyqtSignal(str)
 
     def __init__(self, x, y, width, height, parent=None):
         super().__init__(parent)
@@ -157,16 +157,13 @@ class CustomTable(QFrame):
 
         self.scroll_area = QtWidgets.QScrollArea(self)
         self.scroll_area.setObjectName("scroll_area")
-        self.scroll_area.setGeometry(QRect(0,0, self.width(), self.height()))
+        self.scroll_area.setGeometry(QRect(0, 0, self.width(), self.height()))
         self.scroll_widget = QtWidgets.QWidget()
         self.scroll_widget.setGeometry(0, 0, self.width(), self.height())
         self.scroll_area.setWidget(self.scroll_widget)
         self.scroll_widget.setObjectName("scroll_widget")
         self.scroll_area.setStyleSheet("#scroll_area {background-color: white}")
         self.scroll_widget.setStyleSheet("#scroll_widget {background-color: white}")
-
-
-
 
         self.header_frame = QFrame(self.scroll_widget)
         self.header_frame.setObjectName("rowframe")
@@ -175,14 +172,7 @@ class CustomTable(QFrame):
         # self.header_frame.installEventFilter(MyEventFilter(self.header_frame))
         self.header_span = 5
         self.setUpHeader()
-        self.event_hideInput = HideUserInput()
-        self.installEventFilter(self.event_hideInput)
-        self.event_hideInput.hide_user_input_signal.connect(self.hide_user_input)
         self.test = False
-
-
-
-
 
     def hide_user_input(self):
         if self.edit_label_temp is not None:
@@ -234,10 +224,6 @@ class CustomTable(QFrame):
                     logging.exception(msg="Data is not matching the header")
                     sys.exit()
 
-    def redraw_table(self):
-        for row in self.row_frames:
-            row.deleteLater()
-
     def QLabelHeader(self, name, x, y, width, height, idx):
         try:
             font = QtGui.QFont("Arial", 11)
@@ -282,16 +268,7 @@ class CustomTable(QFrame):
         # item.setStyleSheet(f"background-color: #{random.randint(0, 0xFFFFFF):06x}")
         item.setAlignment(Qt.AlignCenter)
         item.setFont(font)
-        for i in self.header_objects:
-            if i["idx"] == idx:
-                if i["event"] == "editable":
-                    event = EditableLabel(frame_row, item)
-                    item.installEventFilter(event)
-                    event.signal_edit_label.connect(self.edit_label)
-                elif i["event"] == "clickable":
-                    # event = ClickLabel(frame_row, item)
-                    # item.installEventFilter(event)
-                    pass
+
         return item
 
     def edit_label(self, value: list = None):
@@ -345,15 +322,20 @@ class CustomTable(QFrame):
         row_frame = QFrame(self.scroll_widget)
         row_frame.setObjectName(f"{row[0]}")
         row_frame.setGeometry(QRect(0, current_row[1], self.width(), self.default_height_row))
+        row_frame.show()
 
         for idx, column in enumerate(row):
             if idx != 0:
                 pos_x = 0
                 for i in range(int(idx)):
                     pos_x += self.header_columns[i][1]
-
-                k = self._QLabelRow(column, pos_x, 0, self.header_columns[idx][1],
-                                    self.default_height_row, row_frame, idx)
+                if type(column) == ClientTable:
+                    k = self._QLabelRow(column.name, pos_x, 0, self.header_columns[idx][1],
+                                        self.default_height_row, row_frame, idx)
+                    k.show()
+                else:
+                    k = self._QLabelRow(column, pos_x, 0, self.header_columns[idx][1],
+                                        self.default_height_row, row_frame, idx)
                 row_data.append(k)
             else:
                 k = self._QLabelRow(column, 0, 0, self.header_columns[idx][1], self.default_height_row,
@@ -368,6 +350,12 @@ class CustomTable(QFrame):
         self.data.append(row_data)
         self.number_of_rows.append(current_row)
 
+        event = ClickableLabel(self.scroll_widget, row_frame)
+        row_frame.installEventFilter(event)
+        event.click_label_signal.connect(self.open_sale)
+
+    def open_sale(self, sale_nr):
+        self.click_signal.emit(sale_nr)
 
     def add_row(self, row):
         if len(row) != 0:
@@ -381,11 +369,10 @@ class CustomTable(QFrame):
             sys.exit()
 
     def populate_table(self, data):
-        self.scroll_widget.setGeometry(0,0, self.width(),(len(data) + 1) * self.default_height_row )
+        self.scroll_widget.setGeometry(0, 0, self.width(), (len(data) + 1) * self.default_height_row)
         for row in data:
             self.data_id.append(row[0])
-            self.add_row(row[1:])
-
+            self.add_row(row[1])
 
     def print_data(self):
         print(self.data_id)
@@ -409,57 +396,3 @@ class CustomTable(QFrame):
 
         except BaseException as e:
             logging.exception(e)
-
-
-class SalesForm(QtWidgets.QWidget):
-
-    def __init__(self):
-        super().__init__()
-        self.new_window = None
-        self.ui = Ui_Form()
-        self.ui.setupUi(self)
-        self.tableView = CustomTable(self.ui.sales_view_layout.x, self.ui.sales_view_layout.y,
-                                     self.ui.sales_view_layout.width, self.ui.sales_view_layout.width,
-                                     self.ui.sales_view_layout)
-        self.tableView.setObjectName("tableView")
-        header_list = [
-            {"name": "Number", "width": 100},
-            {"name": "Creation Date", "width": 150},
-            {"name": "Client", "width": 200},
-            {"name": "Total", "width": 100},
-
-
-        ]
-        self.tableView.header(header_list)
-
-        data = [[1, "tes5", "test6", "test7", "test8"], [2, "test1", "test2", "test3", "test4"],
-                [3, "tes5", "test6", "test7", "test8"], [4, "tes5", "test2222", "test7", "test8"]]
-        self.tableView.populate_table(data)
-
-        self.event_userinput = HideUserInput()
-        self.installEventFilter(self.event_userinput)
-        self.event_userinput.hide_user_input_signal.connect(self.hide_user_input)
-
-
-        # self.combobox = ExtendedComboBox()
-        # self.combobox.setObjectName("ComboBox")
-        # self.combobox.setParent(self)
-        # self.combobox.setGeometry(QRect(100,100, 250, 20))
-        # self.combobox.addItems(["Cojocariu Daniel", "Danila Daniel", "Test1", "Test2", "Test3"])
-
-    def hide_user_input(self):
-        self.tableView.edit_label(None)
-
-
-if __name__ == "__main__":
-    try:
-        app = QtWidgets.QApplication(sys.argv)
-        qtmodern.styles.light(app)
-        widget = SalesForm()
-        widget.show()
-    except BaseException as e:
-        logging.exception(e)
-
-    # add the frame to a scroll area
-
-    sys.exit(app.exec_())

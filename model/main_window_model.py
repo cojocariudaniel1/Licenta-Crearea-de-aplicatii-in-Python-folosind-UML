@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog, QPushButton
 from base import Session
 from client import ClientTable
 from model.client_view_model import ClientWindow
+from model.sales_tree_view import SalesForm
 from views.main_window import Ui_Form
 
 
@@ -23,7 +24,8 @@ class MainWindow(QtWidgets.QWidget):
         self.setup_btn_icons()
 
     def sales_btn_click(self):
-        pass
+        self.new_window = SalesForm()
+        self.new_window.show()
 
     def planning_btn_click(self):
         pass

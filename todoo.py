@@ -43,7 +43,7 @@ class ExtendedComboBox(QComboBox):
         self.completer.activated.connect(self.on_completer_activated)
 
 
-    # on selection of an item from the completer, select the corresponding item from combobox
+    # on selection of an item from the completer, select the corresponding item from client_combobox
     def on_completer_activated(self, text):
         if text:
             index = self.findText(text)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
 
     combo = ExtendedComboBox()
 
-    # either fill the standard model of the combobox
+    # either fill the standard model of the client_combobox
     combo.addItems(string_list)
 
     # or use another model

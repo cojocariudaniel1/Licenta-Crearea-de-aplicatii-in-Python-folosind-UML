@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, LargeBinary, Date, ForeignKey, Table
+from sqlalchemy import Column, String, Integer, LargeBinary, Date, ForeignKey, Table, Float
 from sqlalchemy.orm import relationship
 
 from base import Base
@@ -12,7 +12,7 @@ class SalesTable(Base):
     client_id = Column(Integer, ForeignKey("client.id"))
     number = Column(String)
     creation_date = Column(Date)
-    total = Column(Integer)
+    total = Column(Float)
     client = relationship('ClientTable', back_populates="sale")
     invoice = relationship("InvoicingTable")
     product = relationship("ProductTable", secondary='saleproducts')

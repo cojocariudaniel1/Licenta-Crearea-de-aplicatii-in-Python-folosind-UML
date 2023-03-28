@@ -6,7 +6,6 @@ from invoicing import InvoicingTable
 from product import ProductTable
 from bankaccount import BankAccount
 
-
 def get_clients_for_kanban():
     session = Session()
     clients = session.query(ClientTable).order_by(ClientTable.id).limit(12).all()

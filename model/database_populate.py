@@ -35,25 +35,44 @@ def update_quantity_sales(sale_id, products, session):
 
 def sale():
     session = Session()
-    product1 = ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1", 15)
-    product2 = ProductTable("Paine", "Consumabil", "buc", 200, 5, "Deposit1", 15)
-    product3 = ProductTable("Paine", "Consumabil", "buc", 30, 5, "Deposit1", 15)
-    product4 = ProductTable("Paine", "Consumabil", "buc", 100, 5, "Deposit1", 15)
+    products_class = []
 
+    products = [("Laptop Dell", "Electronics", "piece", 10, 2500, "Deposit2", 20),
+                ("Carte de colorat", "Consumabil", "buc", 50, 12, "Deposit1", 9),
+                ("Tricou alb", "Vestimentar", "buc", 100, 30, "Deposit3", 5),
+                ("Scaun de birou", "Mobila", "buc", 20, 500, "Deposit2", 15),
+                ("Apa minerala", "Bauturi", "litru", 500, 3, "Deposit1", 10),
+                ("Monitor Samsung", "Electronics", "piece", 5, 1800, "Deposit2", 20),
+                ("Pantaloni negri", "Vestimentar", "buc", 30, 50, "Deposit3", 5),
+                ("Mouse wireless", "Electronics", "piece", 15, 80, "Deposit2", 10),
+                ("Pasta de dinti", "Ingrijire personala", "buc", 50, 15, "Deposit1", 5),
+                ("Fier de calcat", "Electrocasnice", "buc", 5, 200, "Deposit2", 20),
+                ("Cana de cafea", "Ustensile bucatarie", "buc", 25, 40, "Deposit1", 7),
+                ("Set de periute de dinti", "Ingrijire personala", "set", 20, 30, "Deposit1", 5),
+                ("Pisica de jucarie", "Jucarie", "buc", 100, 10, "Deposit1", 5),
+                ("Bomboane", "Dulciuri", "kg", 2, 50, "Deposit1", 15),
+                ("Rucsac negru", "Accesorii", "buc", 5, 100, "Deposit3", 10),
+                ("Cizme de iarna", "Incaltaminte", "buc", 10, 300, "Deposit3", 10),
+                ("Gel de dus", "Ingrijire personala", "buc", 30, 25, "Deposit1", 5),
+                ("Cana cu infuzor", "Ustensile bucatarie", "buc", 20, 35, "Deposit1", 7),
+                ("Caiet de matematica", "Papetarie", "buc", 50, 7, "Deposit1", 5),
+                ("Rama foto", "Decoratiuni", "buc", 15, 20, "Deposit3", 5)]
+    for row in products:
+        products_class.append(ProductTable(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
     sale1 = SalesTable("S1001")
     sale2 = SalesTable("S1002")
     sale3 = SalesTable("S1003")
 
     sale1.client = ClientTable("Individual", "Cojocariu Daniel", "Libertatea", 5, "Iasi", "Iasi", "Romania", 74213211,
                                "None", "daniel@gmail.com", 343123, None)
-    sale1.product = [product4, product2]
+    sale1.product = [products_class[0], products_class[1]]
     price = 0
     for i in sale1.product:
         price += i.price * i.quantity
     sale1.total = price
     sale2.client = ClientTable("Fizica", "Danila Daniel", "Sperantei", 5, "Iasi", "Iasi", "Romanai", 72313131, "None",
                                "danila@gmail.com", 331213, None)
-    sale2.product = [product1, product3]
+    sale2.product = [products_class[2], products_class[3]]
     price = 0
     for i in sale2.product:
         price += i.price * i.quantity
@@ -61,14 +80,15 @@ def sale():
 
     sale3.client = ClientTable("Fizica", "Danila Daniel", "Sperantei", 5, "Iasi", "Iasi", "Romanai", 72313131, "None",
                                "danila@gmail.com", 331213, None)
-    sale3.product = [product1, product3]
+    sale3.product = [products_class[4], products_class[5]]
     price = 0
     for i in sale3.product:
         price += i.price * i.quantity
     sale3.total = price
+    for i in products_class:
+        session.add(i)
     session.add_all(
         [
-            product1, product2, product4, product3,
             sale1, sale2, sale3
         ]
     )

@@ -167,6 +167,8 @@ class CustomTreeFrame(QFrame):
         self.setStyleSheet("#main_frame {background-color: white}")
         self.setGeometry(x, y, 1000, 600)
 
+        self.button = QPushButton("test", self)
+        self.button.setGeometry(0,0, 100, 50)
         self.number_of_rows = 8
 
         self.scroll_area = QtWidgets.QScrollArea(self)
@@ -191,6 +193,7 @@ class CustomTreeFrame(QFrame):
         self.generate_data()
 
         self.draw_tree()
+        self.button.clicked.connect(self.add_row)
 
     def delete_row_handler(self):
         sender = self.sender()
@@ -200,6 +203,12 @@ class CustomTreeFrame(QFrame):
                 row_frame.deleteLater()
                 self.draw_tree()
 
+    def add_row(self):
+        row_frame = CostumRowFrame([1, 'ddd', '1001', 0], self.scroll_widget)
+        self.row_frames.append(row_frame)
+        self.scroll_widget.setGeometry(self.scroll_widget.x(), self.scroll_widget.y(), self.scroll_widget.width(), self.scroll_widget.height() + 30)
+        print(self.row_frames)
+        self.draw_tree()
 
     def generate_data(self):
         for i in range(self.number_of_rows):
@@ -246,6 +255,8 @@ if __name__ == "__main__":
 
     frame1 = CustomTreeFrame(50, 50, 500, 200, header)
     frame1.show()
+
+
     # add the frame to a scroll area
 
     sys.exit(app.exec_())
