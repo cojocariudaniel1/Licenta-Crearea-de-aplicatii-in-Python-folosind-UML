@@ -6,23 +6,27 @@ from PyQt5.QtGui import QMouseEvent, QPixmap, QImage
 from PyQt5.QtWidgets import QLabel, QTreeWidgetItem, QHBoxLayout, QVBoxLayout, QWidget
 from qtpy import QtCore
 
-from repository.client_methods import get_clients_for_kanban, get_clients_for_populate_tree_view, \
-    get_clients_with_offes
+from model.custom_classes.extended_combobox import ExtendedComboBoxFilter
 
 from model.custom_classes.custom_frame import FRAME_LIST, CustomFrame
 
 from model.custom_classes.custom_label_click import LabelClick
 from model.custom_classes.custom_treeview_sorting_modified import CustomQTreeWidgetSortingModified
-from model.form_create_model import ClientCreateForm
-from model.form_edit_client_model import ClientEditForm
-from views.client_view import Ui_Form
+from model.form_create_customer_model import CustomerCreateForm
+from model.form_edit_customer_model import CustomerEditForm
+from repository.customers_methods import filter_customers_kanban, get_customers_for_kanban, get_customers_with_offset, \
+    get_customers_for_populate_tree_view, get_customers_for_populate_tree_view_filter, get_customers
+
+from views.customer_main_view import Ui_Form
 
 
-class ClientWindow(QtWidgets.QWidget):
+class CustomerMainView(QtWidgets.QWidget):
 
     def __init__(self):
         super().__init__()
         self.new_window = None
+        FRAME_LIST.clear()
+
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.tree_widget = CustomQTreeWidgetSortingModified(self)
@@ -31,6 +35,8 @@ class ClientWindow(QtWidgets.QWidget):
         self.widget_container = QWidget()
         self.container_layout = QVBoxLayout()
         self.container_layout.setSpacing(10)
+        self.client_filter = ExtendedComboBoxFilter(self)
+        self.filter_var = ""
 
         self.create_tree_widget()
 
@@ -41,17 +47,18 @@ class ClientWindow(QtWidgets.QWidget):
         self.tree_widget.hide()
 
         self.ui.create_customer.clicked.connect(self.click_create_button)
-
         for frame in FRAME_LIST:
-            if frame.index >= 0:
-                frame.setStyleSheet(
-                    "background-color: rgb(249,249,249); border: 1px solid rgb(249,249,249); font-family: 'Calibri'; font-size: 17px;")
-                frame.selected = False
-            else:
-                frame.setStyleSheet(
-                    "background-color: rgb(242,242,244); border: 1px solid rgb(242,242,244); font-family: 'Calibri'; font-size: 17px;")
+            if frame:
+                if frame.index >= 0:
+                    frame.setStyleSheet(
+                        "background-color: rgb(249,249,249); border: 1px solid rgb(249,249,249); font-family: 'Calibri'; font-size: 17px;")
+                    frame.selected = False
+                else:
+                    frame.setStyleSheet(
+                        "background-color: rgb(242,242,242); border: 1px solid rgb(249,249,249); font-family: 'Calibri'; font-size: 17px;")
+                    frame.selected = True
 
-        self.populate_tree_vew()
+        self.populate_tree_view()
         self.populate_kanban_view()
 
         self.btn_next = LabelClick(self)
@@ -83,40 +90,52 @@ class ClientWindow(QtWidgets.QWidget):
 
         self.btn_next.clicked.connect(self.kanban_next_page)
         self.btn_previous_page.clicked.connect(self.kanban_previous_page)
+        try:
+            self.client_filter.setObjectName("ComboBox")
+            self.client_filter.setGeometry(self.ui.filter_input.geometry())
+            self.client_filter.text_changed.connect(lambda text: self.search_client(text))
+            self.setup_filter()
+            self.client_filter.setCurrentText("")
+        except BaseException as e:
+            logging.exception(e)
 
     def click_create_button(self):
-        self.new_window = ClientCreateForm()
+        self.new_window = CustomerCreateForm()
         self.new_window.show()
 
     def open_EditForm_from_tree_view(self, item):
         id_client = item.text(0)
-        self.new_window = ClientEditForm(id_client)
+
+        self.new_window = CustomerEditForm(id_client)
         self.new_window.window_closed.connect(self.clientEditFormClosed)
         self.new_window.show()
 
     def clientEditFormClosed(self):
         self.populate_kanban_view()
-        self.populate_tree_vew()
+        self.populate_tree_view()
 
     def create_tree_widget(self):
-        columns = ["Id", "Type client", "Name", "Street", "Street Mr", "City", "District", "Country", "Zip code",
-                   "Email", "Web Site"]
-        self.tree_widget.setHeaderLabels(columns)
-        self.tree_widget.setGeometry(QtCore.QRect(33, 145, 1140, 551))
-        # self.tree_widget.setSortingEnabled(True)
-        self.tree_widget.setGeometry(QtCore.QRect(33, 145, 1140, 551))
-        self.tree_widget.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.tree_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.tree_widget.setAutoScrollMargin(16)
-        self.tree_widget.setAlternatingRowColors(False)
-        self.tree_widget.setAnimated(True)
-        self.tree_widget.setExpandsOnDoubleClick(False)
-        self.tree_widget.setObjectName("tree_view_widget_client")
-        self.tree_widget.header().setVisible(True)
-        self.tree_widget.header().setCascadingSectionResizes(False)
-        self.tree_widget.header().setHighlightSections(False)
-        self.tree_widget.header().setSortIndicatorShown(True)
-        self.tree_widget.itemDoubleClicked.connect(self.open_EditForm_from_tree_view)
+        try:
+
+            columns = ["Id", "Type client", "Name", "Street", "Street Mr", "City", "District", "Country", "Zip code",
+                       "Email", "Web Site"]
+            self.tree_widget.setHeaderLabels(columns)
+            self.tree_widget.setGeometry(QtCore.QRect(33, 227, 1140, 471))
+            # self.tree_widget.setSortingEnabled(True)
+            self.tree_widget.setLayoutDirection(QtCore.Qt.LeftToRight)
+            self.tree_widget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+            self.tree_widget.setAutoScrollMargin(16)
+            self.tree_widget.setAlternatingRowColors(False)
+            self.tree_widget.setAnimated(True)
+            self.tree_widget.setExpandsOnDoubleClick(False)
+            self.tree_widget.setObjectName("tree_view_widget_client")
+            self.tree_widget.header().setVisible(True)
+            self.tree_widget.header().setCascadingSectionResizes(False)
+            self.tree_widget.header().setHighlightSections(False)
+            self.tree_widget.header().setSortIndicatorShown(True)
+            self.tree_widget.itemDoubleClicked.connect(self.open_EditForm_from_tree_view)
+        except BaseException as e:
+            logging.exception(e)
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         event.accept()
@@ -156,8 +175,15 @@ class ClientWindow(QtWidgets.QWidget):
                 else:
                     self.clearLayout(item.layout())
 
-    def populate_kanban_view(self):
-        clients = get_clients_for_kanban()
+    def populate_kanban_view(self, filter_client=None):
+        FRAME_LIST.clear()
+        self.clearLayout(self.container_layout.layout())
+        clients = filter_customers_kanban(filter_client)
+        if filter_client is None:
+            if len(str(filter_client)) > 0:
+                clients = get_customers_for_kanban()
+        else:
+            clients = filter_customers_kanban(filter_client)
         self.kanban_page_nr = 1
         # get pages number
         counter_page_var = 0
@@ -184,7 +210,7 @@ class ClientWindow(QtWidgets.QWidget):
                 FRAME_LIST.clear()
             current_page = (self.kanban_current_page - 1) * 12
             if generate_kanban_bool:
-                clients = get_clients_with_offes(current_page)
+                clients = get_customers_with_offset(current_page, self.filter_var)
                 self.generate_kanban_after_page_changed(clients)
         except BaseException as e:
             logging.exception(e)
@@ -201,7 +227,7 @@ class ClientWindow(QtWidgets.QWidget):
                 FRAME_LIST.clear()
             current_page = (self.kanban_current_page - 1) * 12
             if generate_kanban_bool:
-                clients = get_clients_with_offes(current_page)
+                clients = get_customers_with_offset(current_page)
                 self.generate_kanban_after_page_changed(clients)
         except BaseException as e:
             logging.exception(e)
@@ -246,26 +272,26 @@ class ClientWindow(QtWidgets.QWidget):
                         frame1.setLayout(kanban_view)
                         h_layout.addWidget(frame1)
                     else:
+                        if element_count < len(clients):
+                            label_icon = QLabel()
+                            image = QImage.fromData(clients[element_count].image)
+                            pixmap = QPixmap.fromImage(image)
+                            scaled_pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                            label_icon.setPixmap(scaled_pixmap)
+                            label_text = QLabel(str(clients[element_count].name))
+                            label_text.setStyleSheet("font-family: 'Calibri'; font-size: 17px;")
 
-                        label_icon = QLabel()
-                        image = QImage.fromData(clients[element_count].image)
-                        pixmap = QPixmap.fromImage(image)
-                        scaled_pixmap = pixmap.scaled(100, 100, Qt.KeepAspectRatio, Qt.SmoothTransformation)
-                        label_icon.setPixmap(scaled_pixmap)
-                        label_text = QLabel(str(clients[element_count].name))
-                        label_text.setStyleSheet("font-family: 'Calibri'; font-size: 17px;")
+                            frame1 = CustomFrame(clients[element_count].id)
+                            frame1.window_closed_2.connect(self.clientEditFormClosed)
+                            frame1.setStyleSheet(
+                                "background-color: #F9F9F9; font-family: 'Calibri'; font-size: 17px; border: 1px solid rgb(249,249,249);")
+                            kanban_view = QHBoxLayout()
+                            kanban_view.addWidget(label_icon)
+                            kanban_view.addWidget(label_text)
 
-                        frame1 = CustomFrame(clients[element_count].id)
-                        frame1.window_closed_2.connect(self.clientEditFormClosed)
-                        frame1.setStyleSheet(
-                            "background-color: #F9F9F9; font-family: 'Calibri'; font-size: 17px; border: 1px solid rgb(249,249,249);")
-                        kanban_view = QHBoxLayout()
-                        kanban_view.addWidget(label_icon)
-                        kanban_view.addWidget(label_text)
-
-                        frame1.setLayout(kanban_view)
-                        FRAME_LIST.append(frame1)
-                        h_layout.addWidget(frame1)
+                            frame1.setLayout(kanban_view)
+                            FRAME_LIST.append(frame1)
+                            h_layout.addWidget(frame1)
                     element_count += 1
                     ID_CLIENT += 1
 
@@ -277,17 +303,22 @@ class ClientWindow(QtWidgets.QWidget):
                 "background-color: #F2F2F4; font-family: 'Calibri'; font-size: 17px; border: 1px solid rgb(249,249,249);")
         except Exception as e:
             print(clients[0].id)
+            print('eroare la generare kanban')
             logging.exception(e)
 
-    def populate_tree_vew(self):
+    def populate_tree_view(self, filter_client=None):
         try:
             self.client_list.clear()
             self.tree_widget.clear()
-            clients = get_clients_for_populate_tree_view()
+            if filter_client is None:
+                clients = get_customers_for_populate_tree_view()
+            else:
+                clients = get_customers_for_populate_tree_view_filter(filter_client)
             for i in clients:
-                db_client = [i.id, i.type_client, i.name, i.street, i.street_number, i.city, i.district, i.country,
-                             i.zip_code,
-                             i.email, i.web_site]
+                db_client = [i.id, i.type_client, i.name, i.adress.street, i.adress.street_number, i.adress.city,
+                             i.adress.district, i.adress.country,
+                             i.adress.zip_code,
+                             i.adress.email, i.adress.web_site]
                 self.client_list.append(db_client)
 
             for index, row in enumerate(self.client_list):
@@ -297,6 +328,7 @@ class ClientWindow(QtWidgets.QWidget):
             for row in self.client_list:
                 self.tree_widget.addTopLevelItem(QTreeWidgetItem(row))
         except BaseException as e:
+            print("Eroare la populate_tree_view")
             logging.exception(e)
 
     def select_list_view(self):
@@ -305,5 +337,29 @@ class ClientWindow(QtWidgets.QWidget):
             self.ui.kanban_select.hide()
             self.tree_widget.show()
             self.ui.frame.hide()
+        except BaseException as e:
+            logging.exception(e)
+
+    def search_client(self, client_name):
+        try:
+            self.filter_var = client_name
+            self.populate_tree_view(client_name)
+            self.populate_kanban_view(client_name)
+        except BaseException as e:
+            logging.exception(e)
+
+    def setup_filter(self):
+        try:
+            self.client_filter.setGeometry(self.ui.filter_input.geometry())
+            self.client_filter.show()
+            self.ui.filter_input.hide()
+
+            data = get_customers()
+            print(data)
+            for row in data:
+                self.client_filter.addItem(row.name)
+                self.client_filter.setItemData(self.client_filter.count() - 1, row.name, Qt.UserRole)
+
+            self.client_filter.setCurrentText("")
         except BaseException as e:
             logging.exception(e)

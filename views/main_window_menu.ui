@@ -78,7 +78,7 @@ border: 1px solid gray;
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="sales_label">
      <property name="geometry">
       <rect>
        <x>70</x>
@@ -278,7 +278,7 @@ background-color: white;</string>
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="accounting_label">
      <property name="geometry">
       <rect>
        <x>295</x>
@@ -295,7 +295,7 @@ background-color: white;</string>
       <string>Accounting</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="client_label">
      <property name="geometry">
       <rect>
        <x>555</x>
@@ -312,7 +312,7 @@ background-color: white;</string>
       <string>Clients</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="invoicing_label">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -329,7 +329,7 @@ background-color: white;</string>
       <string>Invoicing</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="products_label">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -346,7 +346,7 @@ background-color: white;</string>
       <string>Products</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="point_of_sales">
      <property name="geometry">
       <rect>
        <x>285</x>
@@ -363,7 +363,7 @@ background-color: white;</string>
       <string>Point of Sales</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="planning_label">
      <property name="geometry">
       <rect>
        <x>545</x>
@@ -380,7 +380,7 @@ background-color: white;</string>
       <string>Planning</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="email_marketing_label">
      <property name="geometry">
       <rect>
        <x>510</x>
@@ -422,7 +422,7 @@ background-color: white;</string>
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_10">
+    <widget class="QLabel" name="projects_label">
      <property name="geometry">
       <rect>
        <x>55</x>
@@ -464,7 +464,7 @@ background-color: white;</string>
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_11">
+    <widget class="QLabel" name="purchase_label">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -506,7 +506,7 @@ background-color: white;</string>
       <string notr="true"/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_12">
+    <widget class="QLabel" name="web_site_label">
      <property name="geometry">
       <rect>
        <x>305</x>
@@ -524,31 +524,23 @@ background-color: white;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="label_13">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>65</y>
-      <width>116</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font: 63 14pt &quot;Lucida Bright&quot;;
-background-color: rgb(235, 235, 235);</string>
-    </property>
-    <property name="text">
-     <string>Apps:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_14">
     <property name="geometry">
      <rect>
       <x>15</x>
       <y>5</y>
       <width>956</width>
-      <height>56</height>
+      <height>81</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Lucida Bright</family>
+      <pointsize>24</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">font: 24pt &quot;Lucida Bright&quot;;

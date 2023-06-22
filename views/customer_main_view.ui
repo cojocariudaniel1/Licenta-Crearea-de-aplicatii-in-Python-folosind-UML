@@ -22,8 +22,8 @@
   <widget class="QPushButton" name="create_customer">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>30</y>
+     <x>40</x>
+     <y>95</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -46,14 +46,14 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>25</y>
-     <width>131</width>
-     <height>31</height>
+     <x>505</x>
+     <y>-10</y>
+     <width>241</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 63 14pt &quot;Lucida Bright&quot;;</string>
+    <string notr="true">font: 28pt &quot;Lucida Bright&quot;;</string>
    </property>
    <property name="text">
     <string>Costumers</string>
@@ -62,24 +62,24 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>865</x>
-     <y>90</y>
-     <width>51</width>
+     <x>704</x>
+     <y>185</y>
+     <width>176</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 63 12pt &quot;Lucida Bright&quot;;</string>
+    <string notr="true">font: 15pt &quot;Lucida Bright&quot;;</string>
    </property>
    <property name="text">
-    <string>Filter</string>
+    <string>Serach customer</string>
    </property>
   </widget>
   <widget class="QLabel" name="list_deselect">
    <property name="geometry">
     <rect>
-     <x>1100</x>
-     <y>85</y>
+     <x>1104</x>
+     <y>185</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -97,8 +97,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="kanban_deselect">
    <property name="geometry">
     <rect>
-     <x>1131</x>
-     <y>85</y>
+     <x>1135</x>
+     <y>185</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -116,8 +116,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="kanban_select">
    <property name="geometry">
     <rect>
-     <x>1131</x>
-     <y>85</y>
+     <x>1135</x>
+     <y>185</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -135,8 +135,8 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="list_select">
    <property name="geometry">
     <rect>
-     <x>1100</x>
-     <y>85</y>
+     <x>1104</x>
+     <y>185</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -150,11 +150,14 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    <property name="pixmap">
     <pixmap>C:/Users/Daniel/Desktop/odoo/list_select.png</pixmap>
    </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="antet_color">
    <property name="geometry">
     <rect>
-     <x>-15</x>
+     <x>0</x>
      <y>-15</y>
      <width>1226</width>
      <height>781</height>
@@ -224,9 +227,9 @@ border-right-color: rgba(255, 255, 255, 200);</string>
    <property name="geometry">
     <rect>
      <x>33</x>
-     <y>145</y>
+     <y>225</y>
      <width>1140</width>
-     <height>551</height>
+     <height>471</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -274,6 +277,40 @@ border-right-color: rgba(255, 255, 255, 200);</string>
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QLineEdit" name="filter_input">
+   <property name="geometry">
+    <rect>
+     <x>879</x>
+     <y>190</y>
+     <width>186</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="create_customer_2">
+   <property name="geometry">
+    <rect>
+     <x>1045</x>
+     <y>105</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>CLOSE</string>
+   </property>
+  </widget>
   <zorder>antet_color</zorder>
   <zorder>create_customer</zorder>
   <zorder>label</zorder>
@@ -287,6 +324,8 @@ border-right-color: rgba(255, 255, 255, 200);</string>
   <zorder>frame</zorder>
   <zorder>previous_page_text</zorder>
   <zorder>next_page_text</zorder>
+  <zorder>filter_input</zorder>
+  <zorder>create_customer_2</zorder>
  </widget>
  <resources/>
  <connections/>

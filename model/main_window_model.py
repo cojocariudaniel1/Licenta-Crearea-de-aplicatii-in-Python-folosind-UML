@@ -9,9 +9,10 @@ from PyQt5.QtGui import QImage, QPixmap, QIcon
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QPushButton
 
 from base import Session
-from client import ClientTable
-from model.client_view_model import ClientWindow
-from model.sales_tree_view import SalesForm
+from customer import CustomersTable
+from model.customer_main_view import CustomerMainView
+from model.product_form_model import ProductFormView
+from model.sales_main_view_form import SalesForm
 from views.main_window import Ui_Form
 
 
@@ -21,7 +22,13 @@ class MainWindow(QtWidgets.QWidget):
         self.new_window = None
         self.ui = Ui_Form()
         self.ui.setupUi(self)
+        self.font = QtGui.QFont("Arial", 40)
+        self.font.setBold(True)
+        self.setup_text_icons()
+
         self.setup_btn_icons()
+
+
 
     def sales_btn_click(self):
         self.new_window = SalesForm()
@@ -43,15 +50,22 @@ class MainWindow(QtWidgets.QWidget):
         pass
 
     def product_btn_click(self):
-        pass
-
-    def clients_btn_click(self):
-        self.new_window = ClientWindow()
+        self.new_window = ProductFormView()
         self.new_window.show()
 
+    def clients_btn_click(self):
+        try:
+            self.new_window = CustomerMainView()
+            self.new_window.show()
+        except BaseException as e:
+            logging.exception(e)
     def invoicing_btn_click(self):
         # TODO invoicing interface.
         pass
+
+    def setup_text_icons(self):
+        print('aaaaaa')
+        self.ui.sales_label.setFont(self.font)
 
     def setup_btn_icons(self):
         try:
@@ -60,7 +74,7 @@ class MainWindow(QtWidgets.QWidget):
             self.set_icon("email_marketing_icon.png", self.ui.email_marketing_btn)
             self.set_icon("invoicing_icon.png", self.ui.invoicing_btn)
             self.set_icon("point_of_sales_icon.png", self.ui.point_of_sales_btn)
-            self.set_icon("product_icon.png", self.ui.products_btn)
+            self.set_icon("product_icon.png", self.ui.products_btn, self.product_btn_click)
             self.set_icon("accounting_icon.png", self.ui.accounting_btn)
             self.set_icon("projects_icon.png", self.ui.projects_btn)
             self.set_icon("web_site_icon.png", self.ui.web_site_btn)
@@ -91,6 +105,5 @@ class MainWindow(QtWidgets.QWidget):
             button.mouseReleaseEvent = partial(self.mouseReleaseEvent_effect, button=button, function=function)
             button.setStyleSheet(
                 "border-top: 0px solid black; border-left: 0px solid black; border-right: 1px solid black; border-bottom: 1px solid black")
-
         except BaseException as e:
             logging.exception(e)

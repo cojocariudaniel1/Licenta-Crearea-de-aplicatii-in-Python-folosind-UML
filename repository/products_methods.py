@@ -1,8 +1,7 @@
 from base import Session
-from client import ClientTable
+from customer import CustomersTable
 from sales import SalesTable
 from SalesProduct import SaleProducts
-from invoicing import InvoicingTable
 from product import ProductTable
 from bankaccount import BankAccount
 
@@ -13,6 +12,15 @@ def get_products():
 
     session.close()
     return products
+
+def get_products_with_id():
+    data = []
+    session = Session()
+    products = session.query(ProductTable).order_by(ProductTable.id).all()
+    for product in products:
+        data.append([product.id, [product.product_name, product.product_type, product.unit_of_measure, product.quantity, product.price, product.deposit, product.tva]])
+
+    return data
 
 def get_product_by_id(product_id):
     session = Session()

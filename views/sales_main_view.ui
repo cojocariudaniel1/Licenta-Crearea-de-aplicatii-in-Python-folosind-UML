@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1197</width>
-    <height>745</height>
+    <width>841</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>50</y>
+     <y>80</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -46,14 +46,14 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="lb_title">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>360</x>
      <y>25</y>
-     <width>46</width>
-     <height>31</height>
+     <width>101</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 63 14pt &quot;Lucida Bright&quot;;</string>
+    <string notr="true">font: 28pt &quot;Lucida Bright&quot;;</string>
    </property>
    <property name="text">
     <string>Sales</string>
@@ -62,24 +62,24 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QLabel" name="lb_filter">
    <property name="geometry">
     <rect>
-     <x>865</x>
-     <y>90</y>
-     <width>51</width>
+     <x>485</x>
+     <y>185</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 63 12pt &quot;Lucida Bright&quot;;</string>
+    <string notr="true">font: 15pt &quot;Lucida Bright&quot;;</string>
    </property>
    <property name="text">
-    <string>Filter</string>
+    <string>Search sale</string>
    </property>
   </widget>
   <widget class="QLabel" name="antet_color">
    <property name="geometry">
     <rect>
-     <x>-15</x>
-     <y>-15</y>
+     <x>-30</x>
+     <y>-25</y>
      <width>1226</width>
      <height>781</height>
     </rect>
@@ -100,10 +100,10 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
   <widget class="QFrame" name="sales_view_layout">
    <property name="geometry">
     <rect>
-     <x>33</x>
-     <y>145</y>
-     <width>1140</width>
-     <height>551</height>
+     <x>30</x>
+     <y>240</y>
+     <width>786</width>
+     <height>426</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -113,11 +113,47 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <enum>QFrame::Raised</enum>
    </property>
   </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>615</x>
+     <y>190</y>
+     <width>196</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="create_sale_btn_2">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>80</y>
+     <width>121</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>CLOSE</string>
+   </property>
+  </widget>
   <zorder>antet_color</zorder>
   <zorder>create_sale_btn</zorder>
   <zorder>lb_title</zorder>
   <zorder>lb_filter</zorder>
   <zorder>sales_view_layout</zorder>
+  <zorder>lineEdit</zorder>
+  <zorder>create_sale_btn_2</zorder>
  </widget>
  <resources/>
  <connections/>

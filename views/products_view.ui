@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1197</width>
-    <height>745</height>
+    <width>1201</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,67 +19,27 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QPushButton" name="create_customer">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>50</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(174, 139, 137);
-color: rgb(255, 255, 255);
-font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
-   </property>
-   <property name="text">
-    <string>NEW</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="lb_title">
    <property name="geometry">
     <rect>
-     <x>550</x>
+     <x>520</x>
      <y>25</y>
-     <width>46</width>
-     <height>31</height>
+     <width>206</width>
+     <height>56</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 63 14pt &quot;Lucida Bright&quot;;</string>
+    <string notr="true">font: 28pt &quot;Lucida Bright&quot;;</string>
    </property>
    <property name="text">
-    <string>Sales</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="lb_filter">
-   <property name="geometry">
-    <rect>
-     <x>865</x>
-     <y>90</y>
-     <width>51</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 63 12pt &quot;Lucida Bright&quot;;</string>
-   </property>
-   <property name="text">
-    <string>Filter</string>
+    <string>Products</string>
    </property>
   </widget>
   <widget class="QLabel" name="antet_color">
    <property name="geometry">
     <rect>
-     <x>-15</x>
-     <y>-15</y>
+     <x>-25</x>
+     <y>-5</y>
      <width>1226</width>
      <height>781</height>
     </rect>
@@ -97,13 +57,13 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <string/>
    </property>
   </widget>
-  <widget class="QFrame" name="product_table_layout">
+  <widget class="QFrame" name="product_layout">
    <property name="geometry">
     <rect>
-     <x>33</x>
-     <y>145</y>
-     <width>1140</width>
-     <height>551</height>
+     <x>27</x>
+     <y>195</y>
+     <width>1146</width>
+     <height>481</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -113,12 +73,12 @@ font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
     <enum>QFrame::Raised</enum>
    </property>
   </widget>
-  <widget class="QPushButton" name="print_btn">
+  <widget class="QPushButton" name="btn_close_product">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>75</y>
-     <width>121</width>
+     <x>985</x>
+     <y>95</y>
+     <width>186</width>
      <height>41</height>
     </rect>
    </property>
@@ -134,15 +94,47 @@ color: rgb(255, 255, 255);
 font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>PRINT</string>
+    <string>CLOSE</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="update_btn">
+  <widget class="QLineEdit" name="search_product_cb">
    <property name="geometry">
     <rect>
-     <x>470</x>
-     <y>75</y>
-     <width>121</width>
+     <x>965</x>
+     <y>160</y>
+     <width>201</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="statusTip">
+    <string extracomment="client_name"/>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="lb_search_product">
+   <property name="geometry">
+    <rect>
+     <x>805</x>
+     <y>145</y>
+     <width>151</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 15pt &quot;Lucida Bright&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Search Product</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_save_sale">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>95</y>
+     <width>186</width>
      <height>41</height>
     </rect>
    </property>
@@ -158,16 +150,41 @@ color: rgb(255, 255, 255);
 font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
    </property>
    <property name="text">
-    <string>UPDATE</string>
+    <string>SAVE</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_create_products">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>95</y>
+     <width>186</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(174, 139, 137);
+color: rgb(255, 255, 255);
+font: 75 14pt &quot;MS Shell Dlg 2&quot;;</string>
+   </property>
+   <property name="text">
+    <string>CREATE</string>
    </property>
   </widget>
   <zorder>antet_color</zorder>
-  <zorder>create_customer</zorder>
   <zorder>lb_title</zorder>
-  <zorder>lb_filter</zorder>
-  <zorder>product_table_layout</zorder>
-  <zorder>print_btn</zorder>
-  <zorder>update_btn</zorder>
+  <zorder>product_layout</zorder>
+  <zorder>btn_close_product</zorder>
+  <zorder>search_product_cb</zorder>
+  <zorder>lb_search_product</zorder>
+  <zorder>btn_save_sale</zorder>
+  <zorder>btn_create_products</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -9,12 +9,11 @@ class SalesTable(Base):
 
 
     id = Column(Integer, primary_key=True)
-    client_id = Column(Integer, ForeignKey("client.id"))
+    customer_id = Column(Integer, ForeignKey("customer.id"))
     number = Column(String)
     creation_date = Column(Date)
     total = Column(Float)
-    client = relationship('ClientTable', back_populates="sale")
-    invoice = relationship("InvoicingTable")
+    customer = relationship('CustomersTable', back_populates="sale")
     product = relationship("ProductTable", secondary='saleproducts')
 
     def __init__(self, number, creation_date = date.today()):

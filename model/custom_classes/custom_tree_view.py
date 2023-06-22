@@ -155,16 +155,12 @@ class CustomTreeFrame(QFrame):
 
             self.scroll_area = QtWidgets.QScrollArea(self)
             self.scroll_area.setGeometry(x, y - 10, width, 200)
-            self.scroll_area.setWidgetResizable(True)
+            # self.scroll_area.setWidgetResizable(True)
 
-            self.central_widget = QtWidgets.QWidget()
-            layout = QtWidgets.QVBoxLayout()
-            layout.setSpacing(0)
-            self.central_widget.setLayout(layout)
-
-            self.scroll_area.setWidget(self.central_widget)
-            self.central_widget.layout().setContentsMargins(0, 0, 0, 0)
-            self.scroll_area.setContentsMargins(0, 0, 0, 0)
+            self.scroll_widget = QtWidgets.QWidget()
+            self.scroll_widget.setObjectName("scroll_widget")
+            self.scroll_area.setStyleSheet("#scroll_area {background-color: white}")
+            self.scroll_widget.setStyleSheet("#scroll_widget {background-color: white}")
 
             self.setMouseTracking(True)
             self.draw_tree()
@@ -182,6 +178,5 @@ class CustomTreeFrame(QFrame):
                                      j.send_money,
                                      self.width)
                 self.rows.append(row)
-                self.central_widget.layout().addWidget(row)
         except BaseException as e:
             logging.exception(e)

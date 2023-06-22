@@ -3,7 +3,7 @@ import logging
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QFrame
 
-from model.form_edit_client_model import ClientEditForm
+from model.form_edit_customer_model import CustomerEditForm
 
 FRAME_LIST = []
 
@@ -27,7 +27,7 @@ class CustomFrame(QFrame):
     def mouseDoubleClickEvent(self, event):
         try:
             if self.index > 0:
-                self.new_window = ClientEditForm(self.index)
+                self.new_window = CustomerEditForm(self.index)
                 self.new_window.window_closed.connect(self.clientEditFormClosed)
                 self.new_window.show()
         except BaseException as e:
@@ -55,5 +55,5 @@ class CustomFrame(QFrame):
                 for i in range(layout.count()):
                     child = layout.itemAt(i).widget()
                     child.setStyleSheet("background-color: rgb(249,249,249); border: 1px solid rgb(249,249,249);")
-        except RuntimeError:
-            pass
+        except BaseException as e:
+            logging.exception(e)

@@ -54,7 +54,7 @@ class CustomRadioButton(QtWidgets.QRadioButton):
 
 class CustomRadioButtonWidget(QLabel):
     # For creating a Custom
-    def __init__(self, parent, x, y, state=False):
+    def __init__(self, parent, x, y, state=False, p = False):
         super().__init__(parent)
 
         self.custom_radio_is_checked = state
@@ -66,11 +66,14 @@ class CustomRadioButtonWidget(QLabel):
         self.custom_radioButton.on.connect(self.radio_button_on)
         self.custom_radioButton.off.connect(self.radio_button_off)
         self.custom_radioButton.show()
+        self.custom_radioButton.setObjectName("RB")
 
+        if p:
+            self.custom_radioButton.setStyleSheet("#RB {background-color: rgba(255, 255, 255, 0)}")
         self.custom_radioButton.return_value.connect(self.radioBtn_is_checked)
-
+        self.setObjectName("LabelRB")
         self.setStyleSheet(
-            "background-color: rgba(255, 255, 255);border: 1px solid rgb(224,224,224, 220); border-radius: 10px;")
+            "#LabelRB {background-color: rgba(255, 255, 255);border: 1px solid rgb(224,224,224, 220); border-radius: 10px;}")
         self.setGeometry(self.default_x_pos, self.default_y_pos, 37, 20)
         self.set_radio_button(self.custom_radio_is_checked)
 

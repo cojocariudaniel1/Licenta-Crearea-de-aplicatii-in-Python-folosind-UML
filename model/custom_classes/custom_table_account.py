@@ -78,9 +78,7 @@ class ClickableLabel(QObject):
     def eventFilter(self, obj, event):
         try:
             if event.type() == QEvent.MouseButtonPress:
-                self.click_label_signal.emit(
-                    [obj.text(), [obj.x(), obj.y(), obj.width(), obj.height()], self.main_parent, obj.objectName()])
-
+                self.click_label_signal.emit(obj.objectName())
                 return True
 
             return False
@@ -134,7 +132,7 @@ class LabelEvent(QObject):
             logging.exception(e)
 
 
-class CustomTable(QFrame):
+class CustomTableAccount(QFrame):
     update_values = pyqtSignal()
 
     def __init__(self, x, y, width, height, parent=None):
@@ -182,17 +180,13 @@ class CustomTable(QFrame):
 
         self.test = False
 
-
     def check_data(self):
-        return(self.data[0])
+        return (self.data[0])
 
     def hide_user_input(self):
         print(self.data_id)
         self.edit_label(None)
         self.update_values.emit()
-
-
-
 
     def change_end_line_style(self, value, idx):
         try:
@@ -277,21 +271,15 @@ class CustomTable(QFrame):
         except BaseException as e:
             logging.exception(e)
 
-    def _QLabelRow(self, name, x, y, width, height, frame_row, idx, object_name):
+    def _QLabelRow(self, name, x, y, width, height, frame_row, idx):
         font = QtGui.QFont("Arial", 11)
+
         item = QLabel(str(name), frame_row)
-        item.setObjectName(object_name)
+        item.setObjectName(f"{name}")
         item.setGeometry(QRect(x, y, width, height))
-        # QRect(0,0, 150, 37)
-        # item.setStyleSheet(f"background-color: #{random.randint(0, 0xFFFFFF):06x}")
         item.setAlignment(Qt.AlignCenter)
         item.setFont(font)
-        for i in self.header_objects:
-            if i["idx"] == idx:
-                if i["event"] == "editable":
-                    event = EditableLabel(frame_row, item)
-                    item.installEventFilter(event)
-                    event.signal_edit_label.connect(self.edit_label)
+
         return item
 
     def edit_label(self, value: list = None):
@@ -307,7 +295,7 @@ class CustomTable(QFrame):
                 # Daca un line edit exista deja.
                 if self.edit_label_temp is not None:
                     print("Edit label temp is not None")
-                    #Dca numele de obiect a line_editului vechi este diferit de cel actual
+                    # Dca numele de obiect a line_editului vechi este diferit de cel actual
                     if self.edit_label_temp.objectName() != label_name:
                         print("Edit label temp diferit de label name actual")
                         for row in self.data:
@@ -351,47 +339,60 @@ class CustomTable(QFrame):
         except BaseException as e:
             logging.exception(e)
 
-
     def _make_row(self, row, row_id):
         row_data = []
         last_id_of_row = self.number_of_rows[-1][0]
         current_row = [last_id_of_row + 1, last_id_of_row * self.default_height_row]
         self.number_of_rows.append(current_row)
         row_frame = QFrame(self.scroll_widget)
-        row_frame.setObjectName(f"{row_id}")
+        row_frame.setObjectName(f"{row[0]}")
         row_frame.setGeometry(QRect(0, current_row[1], self.width(), self.default_height_row))
-
-        event = EditableLabel()
-        row_frame.installEventFilter(event)
-        event.signal_edit_label.connect(self.edit_label)
-
+        row_frame.show()
         for idx, column in enumerate(row):
             if idx != 0:
                 pos_x = 0
-                row_idx = f"{row_id}{idx}"
-
                 for i in range(int(idx)):
                     pos_x += self.header_columns[i][1]
+                if type(column) == CustomersTable:
+                    k = self._QLabelRow(column.name, pos_x, 0, self.header_columns[idx][1],
+                                        self.default_height_row, row_frame, idx)
+                    k.setObjectName(str(row_id))
+                    k.show()
+                elif type(column) == bool:
+                    # label = self._QLabelRow("", pos_x, 0, self.header_columns[idx][1],
+                    #                     self.default_height_row, row_frame, idx)
 
-                k = self._QLabelRow(column, pos_x, 0, self.header_columns[idx][1],
-                                    self.default_height_row, row_frame, idx, row_idx)
-                k.setObjectName(f"{row_idx}{pos_x}")
+                    k = self._QLabelRow("", pos_x, 0, self.header_columns[idx][1],
+                                        self.default_height_row, row_frame, idx)
+                    k.setObjectName(str(row_id))
+                    k.show()
+                    widget = CustomRadioButtonWidget(k, int(k.width() / 2) - 20, 8, column)
+                    widget.setObjectName(f"radio{row_id}")
+                    widget.show()
+
+                else:
+                    k = self._QLabelRow(column, pos_x, 0, self.header_columns[idx][1],
+                                        self.default_height_row, row_frame, idx)
+                    k.setObjectName(str(row_id))
                 row_data.append(k)
-
             else:
-                row_idx = f"{row_id}0"
                 k = self._QLabelRow(column, 0, 0, self.header_columns[idx][1], self.default_height_row,
-                                    row_frame, idx, row_idx)
-                k.setObjectName(f"{row_idx}0")
+                                    row_frame, idx)
+                k.setObjectName(str(row_id))
+
                 row_data.append(k)
         self.row_frames.append(row_frame)
         if last_id_of_row % 2 == 0:
             row_frame.setStyleSheet("#%s {background-color: #fcfcfc ;border-bottom: 1px solid #e9ecef;} " % row_id)
+
         else:
             row_frame.setStyleSheet("#%s {background-color: #ffffff; border-bottom: 1px solid #e9ecef;}" % row_id)
         row_frame.installEventFilter(RowEvent(row_id, last_id_of_row, row_frame))
         self.data.append(row_data)
         self.number_of_rows.append(current_row)
+
+        event = ClickableLabel(self.scroll_widget, row_frame)
+        row_frame.installEventFilter(event)
 
     def draw_tree(self):
         i = 1
@@ -400,19 +401,13 @@ class CustomTable(QFrame):
             row.show()
             i += 1
 
-
-    def add_row(self, row):
+    def add_row(self, row, row_id):
         if len(row) != 0:
-            if len(row[1:]) != len(self.header_columns):
+            if len(row) != len(self.header_columns):
                 logging.exception(msg="Data and columns don't match")
-                logging.exception(msg=f"Added Row: {row[1:]}, Columns: {self.header_columns}")
                 sys.exit()
             else:
-                self._make_row(row[1:], row[0])
-                self.data_id.append(row[0])
-                pos = self.scroll_widget
-                self.scroll_widget.setGeometry(pos.x(), pos.y(), pos.width(), pos.height() + self.default_height_row)
-                return row[0]
+                self._make_row(row, row_id)
         else:
             logging.exception(msg="Incorect Data : len is 0")
             sys.exit()
@@ -420,8 +415,8 @@ class CustomTable(QFrame):
     def populate_table(self, data):
         self.scroll_widget.setGeometry(0, 0, self.width(), (len(data) + 1) * self.default_height_row)
         for row in data:
-            self.add_row(row)
-        self.draw_tree()
+            self.data_id.append(row[0])
+            self.add_row(row[1], row[0])
 
     def setUpHeader(self):
         # column[0] -> name of the column, column[1] -> width of the column
@@ -435,9 +430,11 @@ class CustomTable(QFrame):
                             x_pos += self.header_columns[i][1]
 
                         item = self.QLabelHeader(column[0], x_pos, 0, column[1], self.default_height_row, idx)
+                        item.setAlignment(Qt.AlignCenter)
                         self.header_objects.append({"idx": idx, "obj": item, "event": None})
                     else:
                         item = self.QLabelHeader(column[0], 0, 0, column[1], self.default_height_row, idx)
+                        item.setAlignment(Qt.AlignCenter)
                         self.header_objects.append({"idx": idx, "obj": item, "event": None})
 
         except BaseException as e:

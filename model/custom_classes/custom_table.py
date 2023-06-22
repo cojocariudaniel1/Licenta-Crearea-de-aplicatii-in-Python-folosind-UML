@@ -8,11 +8,10 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton
 
 from base import Session
-from client import ClientTable
+from customer import CustomersTable
 from model.custom_classes.custom_radio_button import CustomRadioButtonWidget
 from repository.sales_methods import get_all_sales
 from todoo import ExtendedComboBox
-from views.sales_view import Ui_Form
 import qtmodern.styles
 import qtmodern.windows
 
@@ -168,7 +167,7 @@ class CustomTable(QFrame):
         self.header_frame = QFrame(self.scroll_widget)
         self.header_frame.setObjectName("rowframe")
         self.header_frame.setGeometry(QRect(0, 0, self.width(), self.default_height_row))
-        self.header_frame.setStyleSheet("background-color: #e9ecef")
+        self.header_frame.setStyleSheet("#rowframe {background-color: #e9ecef;")
         # self.header_frame.installEventFilter(MyEventFilter(self.header_frame))
         self.header_span = 5
         self.setUpHeader()
@@ -213,9 +212,6 @@ class CustomTable(QFrame):
         except BaseException as e:
             logging.exception(e)
 
-    def add_item(self):
-        pass
-
     def setUpTable(self):
         # self.data = [[]]
         if len(self.data) > 0:
@@ -239,10 +235,6 @@ class CustomTable(QFrame):
 
             item.setAlignment(Qt.AlignCenter)
             item.setFont(font)
-            # sorting_label = QLabel("\u2191", item)
-            # sorting_label.setGeometry(QRect(x+ 30, y, 45, height))
-            # sorting_label.setAlignment(QtCore.Qt.AlignCenter)
-            # sorting_label.setFont(font)
 
             label_end_line = QLabel(self.header_frame)
             label_end_line.setObjectName(f"{name}end_line")
@@ -264,8 +256,6 @@ class CustomTable(QFrame):
         item = QLabel(str(name), frame_row)
         item.setObjectName(f"{name}")
         item.setGeometry(QRect(x, y, width, height))
-        # QRect(0,0, 150, 37)
-        # item.setStyleSheet(f"background-color: #{random.randint(0, 0xFFFFFF):06x}")
         item.setAlignment(Qt.AlignCenter)
         item.setFont(font)
 
@@ -314,7 +304,7 @@ class CustomTable(QFrame):
             except BaseException as e:
                 logging.exception(e)
 
-    def _make_row(self, row):
+    def _make_row(self, row, row_id):
         row_data = []
         last_id_of_row = self.number_of_rows[-1][0]
         current_row = [last_id_of_row + 1, last_id_of_row * self.default_height_row]
@@ -323,30 +313,39 @@ class CustomTable(QFrame):
         row_frame.setObjectName(f"{row[0]}")
         row_frame.setGeometry(QRect(0, current_row[1], self.width(), self.default_height_row))
         row_frame.show()
-
         for idx, column in enumerate(row):
             if idx != 0:
                 pos_x = 0
                 for i in range(int(idx)):
                     pos_x += self.header_columns[i][1]
-                if type(column) == ClientTable:
+                if type(column) == CustomersTable:
                     k = self._QLabelRow(column.name, pos_x, 0, self.header_columns[idx][1],
                                         self.default_height_row, row_frame, idx)
+                    k.setObjectName(str(row_id))
                     k.show()
+                elif type(column) == bool:
+                    k = CustomRadioButtonWidget(row_frame, pos_x, 8, True)
+                    k.setObjectName(f"radio{row_id}")
+
+
                 else:
                     k = self._QLabelRow(column, pos_x, 0, self.header_columns[idx][1],
                                         self.default_height_row, row_frame, idx)
+                    k.setObjectName(str(row_id))
                 row_data.append(k)
             else:
                 k = self._QLabelRow(column, 0, 0, self.header_columns[idx][1], self.default_height_row,
                                     row_frame, idx)
+                k.setObjectName(str(row_id))
+
                 row_data.append(k)
         self.row_frames.append(row_frame)
         if last_id_of_row % 2 == 0:
-            row_frame.setStyleSheet("#%s {background-color: #fcfcfc ;border-bottom: 1px solid #e9ecef;} " % row[0])
+            row_frame.setStyleSheet("#%s {background-color: #fcfcfc ;border-bottom: 1px solid #e9ecef;} " % row_id)
+
         else:
-            row_frame.setStyleSheet("#%s {background-color: #ffffff; border-bottom: 1px solid #e9ecef;}" % row[0])
-        row_frame.installEventFilter(RowEvent(row[0], last_id_of_row, row_frame))
+            row_frame.setStyleSheet("#%s {background-color: #ffffff; border-bottom: 1px solid #e9ecef;}" % row_id)
+        row_frame.installEventFilter(RowEvent(row_id, last_id_of_row, row_frame))
         self.data.append(row_data)
         self.number_of_rows.append(current_row)
 
@@ -357,13 +356,13 @@ class CustomTable(QFrame):
     def open_sale(self, sale_nr):
         self.click_signal.emit(sale_nr)
 
-    def add_row(self, row):
+    def add_row(self, row, row_id):
         if len(row) != 0:
             if len(row) != len(self.header_columns):
                 logging.exception(msg="Data and columns don't match")
                 sys.exit()
             else:
-                self._make_row(row)
+                self._make_row(row, row_id)
         else:
             logging.exception(msg="Incorect Data : len is 0")
             sys.exit()
@@ -372,7 +371,7 @@ class CustomTable(QFrame):
         self.scroll_widget.setGeometry(0, 0, self.width(), (len(data) + 1) * self.default_height_row)
         for row in data:
             self.data_id.append(row[0])
-            self.add_row(row[1])
+            self.add_row(row[1], row[0])
 
     def print_data(self):
         print(self.data_id)
@@ -390,6 +389,7 @@ class CustomTable(QFrame):
 
                         item = self.QLabelHeader(column[0], x_pos, 0, column[1], self.default_height_row, idx)
                         self.header_objects.append({"idx": idx, "obj": item, "event": None})
+
                     else:
                         item = self.QLabelHeader(column[0], 0, 0, column[1], self.default_height_row, idx)
                         self.header_objects.append({"idx": idx, "obj": item, "event": None})

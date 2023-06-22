@@ -1,6 +1,5 @@
 from sqlalchemy import Column, String, Integer, ForeignKey  # Import library sql
 from sqlalchemy.orm import relationship
-
 from base import Base
 
 
@@ -11,9 +10,9 @@ class BankAccount(Base):
     bank = Column(String)
     account_number = Column(Integer)
     send_money = Column(Integer)
-    client = relationship("ClientTable", back_populates="account", uselist=False)
 
-    client_id = Column(Integer, ForeignKey("client.id"))
+    customer_id = Column(Integer, ForeignKey("customer.id"))
+    customer = relationship("CustomersTable", back_populates="account")
 
     def __init__(self, bank, account_number, send_money):
         self.bank = bank

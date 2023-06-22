@@ -9,7 +9,6 @@ class SaleProducts(Base):
     id = Column(Integer, primary_key = True)
     sales_id = Column(Integer, ForeignKey('sale.id'))
     product_id = Column(Integer, ForeignKey('product.id'))
-
     quantity = Column(Integer)
 
 

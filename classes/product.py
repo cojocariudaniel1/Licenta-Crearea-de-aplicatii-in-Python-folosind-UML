@@ -14,17 +14,13 @@ class ProductTable(Base):
     quantity = Column(Integer)
     price = Column(Integer)
     deposit = Column(String)
-    taxes = Column(Float)
+    tva = Column(Integer)
 
-    def __init__(self, product_name, product_type, unit_of_measure, quantity, price, deposit, taxes):
+    def __init__(self, product_name, product_type, unit_of_measure, quantity, price, deposit, tva):
         self.product_name = product_name
         self.product_type = product_type
         self.unit_of_measure = unit_of_measure
         self.quantity = quantity
         self.price = price
         self.deposit = deposit
-        self.taxes = taxes
-
-
-
-
+        self.tva = tva

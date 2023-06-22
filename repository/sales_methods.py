@@ -1,10 +1,9 @@
 from sqlalchemy import update, delete
 
 from base import Session
-from client import ClientTable
+from customer import CustomersTable
 from sales import SalesTable
 from SalesProduct import SaleProducts
-from invoicing import InvoicingTable
 from product import ProductTable
 from bankaccount import BankAccount
 
@@ -14,16 +13,14 @@ def get_all_sales():
     session = Session()
     sales = session.query(SalesTable).order_by(SalesTable.id).all()
     for row in sales:
-        raw_data = []
-        for product in row.product:
-            raw_data.append(product)
-        data.append([row.id, [row.number, row.creation_date, row.client_id, row.total]])
+        data.append([row.id, [row.number, row.creation_date, row.customer_id, row.total]])
     for idx, i in enumerate(data):
-        client = session.query(ClientTable).filter(ClientTable.id == i[1][2]).first()
+        client = session.query(CustomersTable).filter(CustomersTable.id == i[1][2]).first()
         if client:
             data[idx][1][2] = client
     session.close()
     return data
+
 
 def edit_sale(sale_number, creation_date, sale_total, products):
     session = Session()
@@ -55,6 +52,7 @@ def edit_sale(sale_number, creation_date, sale_total, products):
     session.commit()
     session.close()
 
+
 def get_sale_by_number(sale):
     session = Session()
     sale_query = session.query(SalesTable).filter(SalesTable.number == sale).first()
@@ -62,8 +60,22 @@ def get_sale_by_number(sale):
     session.close()
     return sale_query
 
+def filter_sale(sale_number):
+    data = []
+    session = Session()
+    sales = session.query(SalesTable).filter(SalesTable.number.ilike(f"%{sale_number}%")).order_by(SalesTable.id).all()
 
-def create_sale(client_id, creation_date, sale_total, products):
+    for row in sales:
+        data.append([row.id, [row.number, row.creation_date, row.customer_id, row.total]])
+    for idx, i in enumerate(data):
+        client = session.query(CustomersTable).filter(CustomersTable.id == i[1][2]).first()
+        if client:
+            data[idx][1][2] = client
+    session.close()
+    return data
+
+
+def create_sale(customer_id, creation_date, sale_total, products):
     session = Session()
     product_class_list = []
 
@@ -77,7 +89,7 @@ def create_sale(client_id, creation_date, sale_total, products):
 
     sale.product = product_class_list
     sale.total = sale_total
-    sale.client_id = client_id
+    sale.customer_id = customer_id
 
     session.add(sale)
     session.commit()
@@ -93,4 +105,5 @@ def create_sale(client_id, creation_date, sale_total, products):
     session.commit()
     session.close()
 
-
+if __name__ == "__main__":
+    print(filter_sale("S"))
